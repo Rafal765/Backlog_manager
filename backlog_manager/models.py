@@ -2,31 +2,31 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-GAME_GENRE_CHOICES = (
-    ('ac', "Action"),
-    ('aa', "Action-Adventure"),
-    ('ad', "Adventure"),
-    ('rp', "RPG"),
-    ('si', "Simulation"),
-    ('st', "Strategy"),
-    ('sp', "Sport"),
-    ('mm', "MMO"),
-    ('vn', "VN"),
-)
+#GAME_GENRE_CHOICES = (
+#    ('ac', "Action"),
+#    ('aa', "Action-Adventure"),
+#    ('ad', "Adventure"),
+#    ('rp', "RPG"),
+#    ('si', "Simulation"),
+#    ('st', "Strategy"),
+#    ('sp', "Sport"),
+#    ('mm', "MMO"),
+#    ('vn', "VN"),
+#)
 
-GENRE_CHOICES = (
-    ('ac', "Action"),
-    ('co', "Comedy"),
-    ('ad', "Adventure"),
-    ('cr', "Crime"),
-    ('dr', "Drama"),
-    ('da', "Fantasy"),
-    ('hi', "Historical"),
-    ('ho', "Horror"),
-    ('sf', "SF"),
-    ('th', "Thriller"),
-    ('ro', "Romance"),
-)
+#GENRE_CHOICES = (
+#    ('ac', "Action"),
+#    ('co', "Comedy"),
+#    ('ad', "Adventure"),
+#    ('cr', "Crime"),
+#    ('dr', "Drama"),
+#    ('da', "Fantasy"),
+#    ('hi', "Historical"),
+#    ('ho', "Horror"),
+#    ('sf', "SF"),
+#    ('th', "Thriller"),
+#    ('ro', "Romance"),
+#)
 
 
 STATUS = (
@@ -37,11 +37,11 @@ STATUS = (
 
 
 class GameGenre(models.Model):
-    genre = models.CharField(max_length=2, choices=GAME_GENRE_CHOICES)
+    genre = models.CharField(max_length=32)
 
 
 class Genre(models.Model):
-    genre = models.CharField(max_length=2, choices=GENRE_CHOICES)
+    genre = models.CharField(max_length=32)
 
 
 class Games(models.Model):
@@ -70,10 +70,11 @@ class Books(models.Model):
 
 class Backlog(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    games = models.ManyToManyField(Games, through=BacklogGame)
-    books = models.ManyToManyField(Books, through=BacklogBook)
-    anime = models.ManyToManyField(Anime, through=BacklogAnime)
-    movies_tv = models.ManyToManyField(MovieTV, through=BacklogMovieTV)
+    games = models.ManyToManyField(Games, through='BacklogGame')
+    books = models.ManyToManyField(Books, through='BacklogBook')
+    anime = models.ManyToManyField(Anime, through='BacklogAnime')
+    movies_tv = models.ManyToManyField(MovieTV, through='BacklogMovieTV')
+    order = models.PositiveIntegerField(unique=True)
 
 
 class BacklogGame(models.Model):
@@ -97,4 +98,4 @@ class BacklogAnime(models.Model):
 class BacklogMovieTV(models.Model):
     plan = models.ForeignKey(Backlog, on_delete=models.CASCADE)
     movie_tv = models.ForeignKey(MovieTV, on_delete=models.CASCADE)
-    status = models.IntegerField(max_length=1, choices=STATUS, default='p')
+    status = models.CharField(max_length=1, choices=STATUS, default='p')

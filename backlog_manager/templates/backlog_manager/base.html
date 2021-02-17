@@ -1,0 +1,31 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SP im. Chucka Norrisa</title>
+</head>
+<body>
+    <!-- {% load static %}
+    <img src="{% static 'exercises_app/logo.png' %}">
+    <img src="{% static "logo.png" %}"> -->
+    <h1>Szkoła podstawowa nr 1 im. Chucka Norrisa.</h1>
+    {% block title %}
+    {% endblock %}
+    <hr>
+    {% block content %}
+    {% endblock %}
+
+<p>
+
+
+
+    {% if not request.user.is_authenticated %}
+        <p> Nie jesteś zalogowany: <a href="{% url 'login' %}"> Zaloguj </a> </p>
+    {% else %}
+        Jesteś zalogowany jako {{request.user}}
+        <a href="{% url 'logout' %}"> Wyloguj </a>
+    {% endif %}
+</p>
+</body>
+</html>
