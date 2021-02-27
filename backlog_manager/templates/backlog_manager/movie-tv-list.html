@@ -1,0 +1,16 @@
+{% extends "backlog_manager/base.html" %}
+
+    {% block title %}
+    <h2>Movie/TV list</h2>
+    {% endblock %}
+        {% block content %}
+            <ol>
+                {% for movietv in movietv_list.all %}
+
+                    <li>
+                        <a href="/movietv-detail/{{ movietv.id }}">Title: {{ movietv.title }} Comment: {{ movietv.comment }} </a>
+                    </li>
+
+                {% endfor %}
+            </ol>
+        {% endblock %}
