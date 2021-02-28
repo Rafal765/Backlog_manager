@@ -1,0 +1,13 @@
+{% extends "backlog_manager/base.html" %}
+
+    {% block title %}
+    <h2>Are you sure you want to delete {{ movie_tv.title }}?</h2>
+    {% endblock %}
+
+        {% block content %}
+          <form action="" method="POST">
+            {% csrf_token %}
+            {{form.as_ul}}
+            <input type="submit" value="Delete"/>
+          </form>
+        {% endblock %}
