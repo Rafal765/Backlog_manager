@@ -1,0 +1,12 @@
+{% extends 'backlog_manager/base.html' %}
+    {% block title %}
+    <h2>Add new item</h2>
+    {% endblock %}
+
+    {% block content %}
+      <form action="" method="POST">
+        {% csrf_token %}
+        {{form.as_ul}}
+        <input type="submit" />
+      </form>
+    {% endblock %}
