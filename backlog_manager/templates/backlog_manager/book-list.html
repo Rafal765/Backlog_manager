@@ -1,10 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "backlog_manager/base.html" %}
+
+    {% block title %}
+    <h2>Books list</h2>
+    {% endblock %}
+        {% block content %}
+            <ol>
+                {% for book in book_list.all %}
+
+                    <li>
+                        <a href="/book-detail/{{ book.id }}">Title: {{ book.title }} Comment: {{ book.comment }} Genres: {% for genre in book.genre.all %} {{ genre.genre }} {% endfor %}</a>
+                    </li>
+
+                {% endfor %}
+            </ol>
+        {% endblock %}

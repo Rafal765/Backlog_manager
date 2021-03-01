@@ -1,10 +1,130 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "backlog_manager/base.html" %}
 
-</body>
-</html>
+    {% block title %}
+    <h2>User: {{ backlog.user }}</h2>
+    {% endblock %}
+        {% block content %}
+
+        <h2>Add new item</h2>
+            <a href="/backlog-item-game-create/{{ backlog.id }}">Game</a>
+            <a href="/backlog-item-anime-create/{{ backlog.id }}">Anime</a>
+            <a href="/backlog-item-movie-tv-create/{{ backlog.id }}">Movie/TV</a>
+            <a href="/backlog-item-book-create/{{ backlog.id }}">Book</a>
+
+        <h3>Planned</h3>
+
+            <ol>
+                {% for item in backlog_items_planned.all %}
+
+                    {% if item.anime %}
+                    <li>
+                        <a href="/anime-detail/{{ item.anime.id }}">Title: {{ item.anime.title }} Comment: {{ item.anime.comment }} Type: anime</a>
+                        <a href="/backlog-item-anime-update/{{ backlog.id }}/{{ item.id }}">Update</a>
+                        <a href="/backlog-item-anime-delete/{{ backlog.id }}/{{ item.id }}">Delete</a>
+                    </li>
+                    {% endif %}
+
+                    {% if item.book %}
+                    <li>
+                        <a href="/book-detail/{{ item.book.id }}">Title: {{ item.book.title }} Comment: {{ item.book.comment }} Type: book</a>
+                        <a href="/backlog-item-book-update/{{ backlog.id }}/{{ item.id }}">Update</a>
+                        <a href="/backlog-item-book-delete/{{ backlog.id }}/{{ item.id }}">Delete</a>
+                    </li>
+                    {% endif %}
+
+                    {% if item.game %}
+                    <li>
+                        <a href="/game-detail/{{ item.game.id }}">Title: {{ item.game.title }} Comment: {{ item.game.comment }} Type: game</a>
+                        <a href="/backlog-item-game-update/{{ backlog.id }}/{{ item.id }}">Update</a>
+                        <a href="/backlog-item-game-delete/{{ backlog.id }}/{{ item.id }}">Delete</a>
+                    </li>
+                    {% endif %}
+
+                    {% if item.movie_tv %}
+                    <li>
+                        <a href="/movie-tv-detail/{{ item.movie_tv.id }}">Title: {{ item.movie_tv.title }} Comment: {{ item.movie_tv.comment }} Type: Movie/TV</a>
+                        <a href="/backlog-item-movie-tv-update/{{ backlog.id }}/{{ item.id }}">Update</a>
+                        <a href="/backlog-item-movie-tv-delete/{{ backlog.id }}/{{ item.id }}">Delete</a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+            </ol>
+
+                    <h3>Ongoing</h3>
+
+            <ol>
+                {% for item in backlog_items_ongoing.all %}
+
+                    {% if item.anime %}
+                    <li>
+                        <a href="/anime-detail/{{ item.anime.id }}">Title: {{ item.anime.title }} Comment: {{ item.anime.comment }} Type: anime</a>
+                        <a href="/backlog-item-anime-update/{{ backlog.id }}/{{ item.id }}">Update</a>
+                        <a href="/backlog-item-anime-delete/{{ backlog.id }}/{{ item.id }}">Delete</a>
+                    </li>
+                    {% endif %}
+
+                    {% if item.book %}
+                    <li>
+                        <a href="/book-detail/{{ item.book.id }}">Title: {{ item.book.title }} Comment: {{ item.book.comment }} Type: book</a>
+                        <a href="/backlog-item-book-update/{{ backlog.id }}/{{ item.id }}">Update</a>
+                        <a href="/backlog-item-book-delete/{{ backlog.id }}/{{ item.id }}">Delete</a>
+                    </li>
+                    {% endif %}
+
+                    {% if item.game %}
+                    <li>
+                        <a href="/game-detail/{{ item.game.id }}">Title: {{ item.game.title }} Comment: {{ item.game.comment }} Type: game</a>
+                        <a href="/backlog-item-game-update/{{ backlog.id }}/{{ item.id }}">Update</a>
+                        <a href="/backlog-item-game-delete/{{ backlog.id }}/{{ item.id }}">Delete</a>
+                    </li>
+                    {% endif %}
+
+                    {% if item.movie_tv %}
+                    <li>
+                        <a href="/movie-tv-detail/{{ item.movie_tv.id }}">Title: {{ item.movie_tv.title }} Comment: {{ item.movie_tv.comment }} Type: Movie/TV</a>
+                        <a href="/backlog-item-movie-tv-update/{{ backlog.id }}/{{ item.id }}">Update</a>
+                        <a href="/backlog-item-movie-tv-delete/{{ backlog.id }}/{{ item.id }}">Delete</a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+            </ol>
+
+                    <h3>Done</h3>
+
+            <ol>
+                {% for item in backlog_items_done.all %}
+
+                    {% if item.anime %}
+                    <li>
+                        <a href="/anime-detail/{{ item.anime.id }}">Title: {{ item.anime.title }} Comment: {{ item.anime.comment }} Type: anime</a>
+                        <a href="/backlog-item-anime-update/{{ backlog.id }}/{{ item.id }}">Update</a>
+                        <a href="/backlog-item-anime-delete/{{ backlog.id }}/{{ item.id }}">Delete</a>
+                    </li>
+                    {% endif %}
+
+                    {% if item.book %}
+                    <li>
+                        <a href="/book-detail/{{ item.book.id }}">Title: {{ item.book.title }} Comment: {{ item.book.comment }} Type: book</a>
+                        <a href="/backlog-item-book-update/{{ backlog.id }}/{{ item.id }}">Update</a>
+                        <a href="/backlog-item-book-delete/{{ backlog.id }}/{{ item.id }}">Delete</a>
+                    </li>
+                    {% endif %}
+
+                    {% if item.game %}
+                    <li>
+                        <a href="/game-detail/{{ item.game.id }}">Title: {{ item.game.title }} Comment: {{ item.game.comment }} Type: game</a>
+                        <a href="/backlog-item-game-update/{{ backlog.id }}/{{ item.id }}">Update</a>
+                        <a href="/backlog-item-game-delete/{{ backlog.id }}/{{ item.id }}">Delete</a>
+                    </li>
+                    {% endif %}
+
+                    {% if item.movie_tv %}
+                    <li>
+                        <a href="/movie-tv-detail/{{ item.movie_tv.id }}">Title: {{ item.movie_tv.title }} Comment: {{ item.movie_tv.comment }} Type: Movie/TV</a>
+                        <a href="/backlog-item-movie-tv-update/{{ backlog.id }}/{{ item.id }}">Update</a>
+                        <a href="/backlog-item-movie-tv-delete/{{ backlog.id }}/{{ item.id }}">Delete</a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+            </ol>
+        {% endblock %}}
