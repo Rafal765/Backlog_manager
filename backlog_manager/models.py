@@ -2,33 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-#GAME_GENRE_CHOICES = (
-#    ('ac', "Action"),
-#    ('aa', "Action-Adventure"),
-#    ('ad', "Adventure"),
-#    ('rp', "RPG"),
-#    ('si', "Simulation"),
-#    ('st', "Strategy"),
-#    ('sp', "Sport"),
-#    ('mm', "MMO"),
-#    ('vn', "VN"),
-#)
-
-#GENRE_CHOICES = (
-#    ('ac', "Action"),
-#    ('co', "Comedy"),
-#    ('ad', "Adventure"),
-#    ('cr', "Crime"),
-#    ('dr', "Drama"),
-#    ('da', "Fantasy"),
-#    ('hi', "Historical"),
-#    ('ho', "Horror"),
-#    ('sf', "SF"),
-#    ('th', "Thriller"),
-#    ('ro', "Romance"),
-#)
-
-
 STATUS = (
     ('p', "Planned"),
     ('o', "Ongoing"),
@@ -39,15 +12,24 @@ STATUS = (
 class GameGenre(models.Model):
     genre = models.CharField(max_length=32)
 
+    def __str__(self):
+        return self.genre
+
 
 class Genre(models.Model):
     genre = models.CharField(max_length=32)
 
+    def __str__(self):
+        return self.genre
 
-class Games(models.Model):
+
+class Game(models.Model):
     title = models.CharField(max_length=64)
     comment = models.TextField(null=True)
     genre = models.ManyToManyField(GameGenre)
+
+    def __str__(self):
+        return self.title
 
 
 class Anime(models.Model):
@@ -55,47 +37,39 @@ class Anime(models.Model):
     comment = models.TextField(null=True)
     genre = models.ManyToManyField(Genre)
 
+    def __str__(self):
+        return self.title
+
 
 class MovieTV(models.Model):
     title = models.CharField(max_length=64)
     comment = models.TextField(null=True)
     genre = models.ManyToManyField(Genre)
 
+    def __str__(self):
+        return self.title
 
-class Books(models.Model):
+
+class Book(models.Model):
     title = models.CharField(max_length=64)
     comment = models.TextField(null=True)
     genre = models.ManyToManyField(Genre)
 
+    def __str__(self):
+        return self.title
+
 
 class Backlog(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    games = models.ManyToManyField(Games, through='BacklogGame')
-    books = models.ManyToManyField(Books, through='BacklogBook')
-    anime = models.ManyToManyField(Anime, through='BacklogAnime')
-    movies_tv = models.ManyToManyField(MovieTV, through='BacklogMovieTV')
-    order = models.PositiveIntegerField(unique=True)
 
 
-class BacklogGame(models.Model):
+class BacklogItem(models.Model):
+    class Meta:
+        unique_together = ['plan', 'order'] #na poziomie bazy unikatowa para
     plan = models.ForeignKey(Backlog, on_delete=models.CASCADE)
-    game = models.ForeignKey(Games, on_delete=models.CASCADE)
-    status = models.CharField(max_length=1, choices=STATUS, default='p')
-
-
-class BacklogBook(models.Model):
-    plan = models.ForeignKey(Backlog, on_delete=models.CASCADE)
-    book = models.ForeignKey(Books, on_delete=models.CASCADE)
-    status = models.CharField(max_length=1, choices=STATUS, default='p')
-
-
-class BacklogAnime(models.Model):
-    plan = models.ForeignKey(Backlog, on_delete=models.CASCADE)
-    anime = models.ForeignKey(Anime, on_delete=models.CASCADE)
-    status = models.CharField(max_length=1, choices=STATUS, default='p')
-
-
-class BacklogMovieTV(models.Model):
-    plan = models.ForeignKey(Backlog, on_delete=models.CASCADE)
-    movie_tv = models.ForeignKey(MovieTV, on_delete=models.CASCADE)
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, null=True)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, null=True)
+    anime = models.ForeignKey(Anime, on_delete=models.CASCADE, null=True)
+    movie_tv = models.ForeignKey(MovieTV, on_delete=models.CASCADE, null=True)
+    order = models.PositiveIntegerField()
     status = models.CharField(max_length=1, choices=STATUS, default='p')

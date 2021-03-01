@@ -5,10 +5,10 @@
     {% endblock %}
         {% block content %}
             <ol>
-                {% for movietv in movietv_list.all %}
+                {% for movie_tv in movie_tv_list.all %}
 
                     <li>
-                        <a href="/movietv-detail/{{ movietv.id }}">Title: {{ movietv.title }} Comment: {{ movietv.comment }} </a>
+                        <a href="/movie-tv-detail/{{ movie_tv.id }}">Title: {{ movie_tv.title }} Comment: {{ movie_tv.comment }} Genres: {% for genre in movie_tv.genre.all %} {{ genre.genre }} {% endfor %}</a>
                     </li>
 
                 {% endfor %}
