@@ -64,8 +64,8 @@ class Backlog(models.Model):
 
 
 class BacklogItem(models.Model):
-    class Meta:
-        unique_together = ['plan', 'order'] #na poziomie bazy unikatowa para
+    #class Meta:
+    #    unique_together = ['plan', 'order'] #na poziomie bazy unikatowa para
     plan = models.ForeignKey(Backlog, on_delete=models.CASCADE)
     game = models.ForeignKey(Game, on_delete=models.CASCADE, null=True)
     book = models.ForeignKey(Book, on_delete=models.CASCADE, null=True)

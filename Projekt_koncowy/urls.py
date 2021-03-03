@@ -14,19 +14,22 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.contrib.auth import urls
+from django.urls import path, include
 from backlog_manager.views import MainView, BacklogView, GameView, AnimeView, MovieTVView, BookView, \
     GameGenreView, GenreView, GameDetailView, AnimeDetailView, MovieTVDetailView, BookDetailView, \
     GameCreate, GameUpdate, GameDelete, AnimeCreate, AnimeUpdate, AnimeDelete, MovieTVCreate, MovieTVUpdate, \
     MovieTVDelete, BookCreate, BookUpdate, BookDelete, GameGenreCreate, GameGenreUpdate, GameGenreDelete, \
-    GenreCreate, GenreUpdate, GenreDelete, BacklogItemGameAdd, BacklogItemGameUpdate, BacklogItemGameDelete #, \
-   #BacklogItemAnimeAdd, BacklogItemAnimeUpdate, BacklogItemAnimeDelete, BacklogItemMovieTVAdd, BacklogItemMovieTVUpdate, \
-   #BacklogItemMovieTVDelete, BacklogItemBookAdd, BacklogItemBookUpdate, BacklogItemBookDelete
+    GenreCreate, GenreUpdate, GenreDelete, BacklogItemGameAdd, BacklogItemGameUpdate, BacklogItemGameDelete, \
+    BacklogItemAnimeAdd, BacklogItemAnimeUpdate, BacklogItemAnimeDelete, BacklogItemMovieTVAdd, \
+    BacklogItemMovieTVUpdate, BacklogItemMovieTVDelete, BacklogItemBookAdd, BacklogItemBookUpdate, \
+    BacklogItemBookDelete
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', MainView.as_view(), name="homepage"),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('', MainView.as_view(), name="my_backlogs"),
     path('backlog/<int:pk>', BacklogView.as_view(), name="backlog"),
     path('game-list/', GameView.as_view(), name="game"),
     path('anime-list/', AnimeView.as_view(), name="anime"),
@@ -62,20 +65,20 @@ urlpatterns = [
          name="backlog_game_update"),
     path('backlog-item-game-delete/<int:backlog_pk>/<int:pk>', BacklogItemGameDelete.as_view(),
          name="backlog_game_delete"),
-   # path('backlog-item-anime-create/<int:backlog_pk>', BacklogItemAnimeAdd.as_view(), name="backlog_anime_create"),
-   # path('backlog-item-anime-update/<int:backlog_pk>/<int:pk>', BacklogItemAnimeUpdate.as_view(),
-   #      name="backlog_anime_update"),
-   # path('backlog-item-anime-delete/<int:backlog_pk>/<int:pk>', BacklogItemAnimeDelete.as_view(),
-   #      name="backlog_anime_delete"),
-   # path('backlog-item-movie-tv-create/<int:backlog_pk>', BacklogItemMovieTVAdd.as_view(),
-   #      name="backlog_movie_tv_create"),
-   # path('backlog-item-movie-tv-update/<int:backlog_pk>/<int:pk>', BacklogItemMovieTVUpdate.as_view(),
-   #      name="backlog_movie_tv_update"),
-   # path('backlog-item-movie-tv-delete/<int:backlog_pk>/<int:pk>', BacklogItemMovieTVDelete.as_view(),
-   #      name="backlog_movie_tv_delete"),
-   # path('backlog-item-book-create/<int:backlog_pk>', BacklogItemBookAdd.as_view(), name="backlog_book_create"),
-   # path('backlog-item-book-update/<int:backlog_pk>/<int:pk>', BacklogItemBookUpdate.as_view(),
-   #      name="backlog_book_update"),
-   # path('backlog-item-book-delete/<int:backlog_pk>/<int:pk>', BacklogItemBookDelete.as_view(),
-   #      name="backlog_book_delete"),
+    path('backlog-item-anime-create/<int:backlog_pk>', BacklogItemAnimeAdd.as_view(), name="backlog_anime_create"),
+    path('backlog-item-anime-update/<int:backlog_pk>/<int:pk>', BacklogItemAnimeUpdate.as_view(),
+         name="backlog_anime_update"),
+    path('backlog-item-anime-delete/<int:backlog_pk>/<int:pk>', BacklogItemAnimeDelete.as_view(),
+         name="backlog_anime_delete"),
+    path('backlog-item-movie-tv-create/<int:backlog_pk>', BacklogItemMovieTVAdd.as_view(),
+         name="backlog_movie_tv_create"),
+    path('backlog-item-movie-tv-update/<int:backlog_pk>/<int:pk>', BacklogItemMovieTVUpdate.as_view(),
+         name="backlog_movie_tv_update"),
+    path('backlog-item-movie-tv-delete/<int:backlog_pk>/<int:pk>', BacklogItemMovieTVDelete.as_view(),
+         name="backlog_movie_tv_delete"),
+    path('backlog-item-book-create/<int:backlog_pk>', BacklogItemBookAdd.as_view(), name="backlog_book_create"),
+    path('backlog-item-book-update/<int:backlog_pk>/<int:pk>', BacklogItemBookUpdate.as_view(),
+         name="backlog_book_update"),
+    path('backlog-item-book-delete/<int:backlog_pk>/<int:pk>', BacklogItemBookDelete.as_view(),
+         name="backlog_book_delete"),
 ]

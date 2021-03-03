@@ -9,23 +9,23 @@ from django.contrib.auth.models import User
 #        model = BacklogItem
 #        fields = ["game", "order", "status"]
 #
-#    #def clean(self):
-#    #    order = self.cleaned_data.get("order")
-#    #    plan = self.instance.plan
-#    #    if BacklogItem.objects.filter(order=order).filter(plan=plan).exists():
-#    #        raise forms.ValidationError("This order already exists, please try another")
+#    def clean(self):
+#        order = self.cleaned_data.get("order")
+#        plan = self.instance.plan
+#        if BacklogItem.objects.filter(order=order).filter(plan=plan).exists():
+#            raise forms.ValidationError("This order already exists, please try another")
 #
 #
-##class BacklogItemAnimeUpdateForm(ModelForm):
-##    class Meta:
-##        model = BacklogItem
-##        fields = ["anime", "order", "status"]
-##
-##    def clean(self):
-##        order = self.cleaned_data.get("order")
-##        plan = self.instance.plan
-##        if BacklogItem.objects.filter(order=order).filter(plan=plan).exists():
-##            raise forms.ValidationError("This order already exists, please try another")
+#class BacklogItemAnimeUpdateForm(ModelForm):
+#    class Meta:
+#        model = BacklogItem
+#        fields = ["anime", "order", "status"]
+#
+#    def clean(self):
+#        order = self.cleaned_data.get("order")
+#        plan = self.instance.plan
+#        if BacklogItem.objects.filter(order=order).filter(plan=plan).exists():
+#            raise forms.ValidationError("This order already exists, please try another")
 #
 #
 #class BacklogItemMovieTVUpdateForm(ModelForm):

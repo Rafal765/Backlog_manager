@@ -11,7 +11,8 @@ from django.urls import reverse_lazy
 
 class MainView(View):
     def get(self, request):
-        return render(request, "backlog_manager/main.html")
+
+        return render(request, "backlog_manager/my-backlogs.html")
 
 
 class BacklogView(View):
@@ -230,14 +231,24 @@ class GenreDelete(DeleteView):
 
 class BacklogItemGameAdd(CreateView):
     model = BacklogItem
-    fields = ["game", "order", "status"]
+    fields = ["game", "status"]
 
     def get_success_url(self):
         pk = self.kwargs["backlog_pk"]
         return reverse_lazy("backlog", kwargs={"pk": pk})
 
     def form_valid(self, form):
+        # Save plan id to database
         form.instance.plan = Backlog.objects.get(pk=self.kwargs.get('backlog_pk'))
+        # Gives next available order
+        plan = self.kwargs["backlog_pk"]
+        status = form.instance.status
+        backlog_items = BacklogItem.objects.filter(plan=plan).filter(status=status).order_by("order")
+        next_order = 1
+        for item in backlog_items:
+            # item.save()
+            next_order += 1
+        form.instance.order = next_order
         return super().form_valid(form)
 
 
@@ -249,13 +260,16 @@ class BacklogItemGameUpdate(UpdateView):
 
     def form_valid(self, form):
         plan = self.kwargs["backlog_pk"]
-        backlog_items = BacklogItem.objects.filter(plan=plan).order_by("order")
+        status = form.instance.status
+        backlog_items = list(BacklogItem.objects.filter(plan=plan).filter(status=status).order_by("order"))
         next_order = 1
         for item in backlog_items:
             if next_order == form.cleaned_data["order"]:
                 next_order += 1
             item.order = next_order
+            #item.save()
             next_order += 1
+        BacklogItem.objects.bulk_update(backlog_items, ["order"])
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -271,96 +285,171 @@ class BacklogItemGameDelete(DeleteView):
         return reverse_lazy("backlog", kwargs={"pk": pk})
 
 
-#class BacklogItemAnimeAdd(CreateView):
-#    model = BacklogItem
-#    fields = ["anime", "order", "status"]
-#
-#    def get_success_url(self):
-#        pk = self.kwargs["backlog_pk"]
-#        return reverse_lazy("backlog", kwargs={"pk": pk})
-#
-#    def form_valid(self, form):
-#        form.instance.plan = Backlog.objects.get(pk=self.kwargs.get('backlog_pk'))
-#        return super().form_valid(form)
-#
-#
-#class BacklogItemAnimeUpdate(UpdateView):
-#    model = BacklogItem
-#    #form_class = BacklogItemAnimeUpdateForm
-#    template_name_suffix = "_update_form"
-#
-#    def get_success_url(self):
-#        pk = self.kwargs["backlog_pk"]
-#        return reverse_lazy("backlog", kwargs={"pk": pk})
-#
-#
-#class BacklogItemAnimeDelete(DeleteView):
-#    model = BacklogItem
-#
-#    def get_success_url(self):
-#        pk = self.kwargs["backlog_pk"]
-#        return reverse_lazy("backlog", kwargs={"pk": pk})
-#
-#
-#class BacklogItemMovieTVAdd(CreateView):
-#    model = BacklogItem
-#    fields = ["movie_tv", "order", "status"]
-#
-#    def get_success_url(self):
-#        pk = self.kwargs["backlog_pk"]
-#        return reverse_lazy("backlog", kwargs={"pk": pk})
-#
-#    def form_valid(self, form):
-#        form.instance.plan = Backlog.objects.get(pk=self.kwargs.get('backlog_pk'))
-#        return super().form_valid(form)
-#
-#
-#class BacklogItemMovieTVUpdate(UpdateView):
-#    model = BacklogItem
-#    #form_class = BacklogItemMovieTVUpdateForm
-#    template_name_suffix = "_update_form"
-#
-#    def get_success_url(self):
-#        pk = self.kwargs["backlog_pk"]
-#        return reverse_lazy("backlog", kwargs={"pk": pk})
-#
-#
-#class BacklogItemMovieTVDelete(DeleteView):
-#    model = BacklogItem
-#
-#    def get_success_url(self):
-#        pk = self.kwargs["backlog_pk"]
-#        return reverse_lazy("backlog", kwargs={"pk": pk})
-#
-#
-#class BacklogItemBookAdd(CreateView):
-#    model = BacklogItem
-#    fields = ["book", "order", "status"]
-#
-#    def get_success_url(self):
-#        pk = self.kwargs["backlog_pk"]
-#        return reverse_lazy("backlog", kwargs={"pk": pk})
-#
-#    def form_valid(self, form):
-#        form.instance.plan = Backlog.objects.get(pk=self.kwargs.get('backlog_pk'))
-#        return super().form_valid(form)
-#
-#
-#class BacklogItemBookUpdate(UpdateView):
-#    model = BacklogItem
-#    #form_class = BacklogItemBookUpdateForm
-#    template_name_suffix = "_update_form"
-#
-#    def get_success_url(self):
-#        pk = self.kwargs["backlog_pk"]
-#        return reverse_lazy("backlog", kwargs={"pk": pk})
-#
-#
-#class BacklogItemBookDelete(DeleteView):
-#    model = BacklogItem
-#
-#    def get_success_url(self):
-#        pk = self.kwargs["backlog_pk"]
-#        return reverse_lazy("backlog", kwargs={"pk": pk})
+class BacklogItemAnimeAdd(CreateView):
+    model = BacklogItem
+    fields = ["anime", "status"]
+
+    def get_success_url(self):
+        pk = self.kwargs["backlog_pk"]
+        return reverse_lazy("backlog", kwargs={"pk": pk})
+
+    def form_valid(self, form):
+        # Save plan id to database
+        form.instance.plan = Backlog.objects.get(pk=self.kwargs.get('backlog_pk'))
+        # Gives next available order
+        plan = self.kwargs["backlog_pk"]
+        status = form.instance.status
+        backlog_items = BacklogItem.objects.filter(plan=plan).filter(status=status).order_by("order")
+        next_order = 1
+        for item in backlog_items:
+            # item.save()
+            next_order += 1
+        form.instance.order = next_order
+        return super().form_valid(form)
+
+
+class BacklogItemAnimeUpdate(UpdateView):
+    model = BacklogItem
+    fields = ["anime", "order", "status"]
+    #form_class = BacklogItemAnimeUpdateForm
+    template_name_suffix = "_update_form"
+
+    def form_valid(self, form):
+        plan = self.kwargs["backlog_pk"]
+        status = form.instance.status
+        backlog_items = list(BacklogItem.objects.filter(plan=plan).filter(status=status).order_by("order"))
+        next_order = 1
+        for item in backlog_items:
+            if next_order == form.cleaned_data["order"]:
+                next_order += 1
+            item.order = next_order
+            #item.save()
+            next_order += 1
+        BacklogItem.objects.bulk_update(backlog_items, ["order"])
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        pk = self.kwargs["backlog_pk"]
+        return reverse_lazy("backlog", kwargs={"pk": pk})
+
+
+class BacklogItemAnimeDelete(DeleteView):
+    model = BacklogItem
+
+    def get_success_url(self):
+        pk = self.kwargs["backlog_pk"]
+        return reverse_lazy("backlog", kwargs={"pk": pk})
+
+
+class BacklogItemMovieTVAdd(CreateView):
+    model = BacklogItem
+    fields = ["movie_tv", "status"]
+
+    def get_success_url(self):
+        pk = self.kwargs["backlog_pk"]
+        return reverse_lazy("backlog", kwargs={"pk": pk})
+
+    def form_valid(self, form):
+        # Save plan id to database
+        form.instance.plan = Backlog.objects.get(pk=self.kwargs.get('backlog_pk'))
+        # Gives next available order
+        plan = self.kwargs["backlog_pk"]
+        status = form.instance.status
+        backlog_items = BacklogItem.objects.filter(plan=plan).filter(status=status).order_by("order")
+        next_order = 1
+        for item in backlog_items:
+            # item.save()
+            next_order += 1
+        form.instance.order = next_order
+        return super().form_valid(form)
+
+
+class BacklogItemMovieTVUpdate(UpdateView):
+    model = BacklogItem
+    fields = ["movie_tv", "order", "status"]
+    # form_class = BacklogItemAnimeUpdateForm
+    template_name_suffix = "_update_form"
+
+    def form_valid(self, form):
+        plan = self.kwargs["backlog_pk"]
+        status = form.instance.status
+        backlog_items = list(BacklogItem.objects.filter(plan=plan).filter(status=status).order_by("order"))
+        next_order = 1
+        for item in backlog_items:
+            if next_order == form.cleaned_data["order"]:
+                next_order += 1
+            item.order = next_order
+            #item.save()
+            next_order += 1
+        BacklogItem.objects.bulk_update(backlog_items, ["order"])
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        pk = self.kwargs["backlog_pk"]
+        return reverse_lazy("backlog", kwargs={"pk": pk})
+
+
+class BacklogItemMovieTVDelete(DeleteView):
+    model = BacklogItem
+
+    def get_success_url(self):
+        pk = self.kwargs["backlog_pk"]
+        return reverse_lazy("backlog", kwargs={"pk": pk})
+
+
+class BacklogItemBookAdd(CreateView):
+    model = BacklogItem
+    fields = ["book", "status"]
+
+    def get_success_url(self):
+        pk = self.kwargs["backlog_pk"]
+        return reverse_lazy("backlog", kwargs={"pk": pk})
+
+    def form_valid(self, form):
+        # Save plan id to database
+        form.instance.plan = Backlog.objects.get(pk=self.kwargs.get('backlog_pk'))
+        # Gives next available order
+        plan = self.kwargs["backlog_pk"]
+        status = form.instance.status
+        backlog_items = BacklogItem.objects.filter(plan=plan).filter(status=status).order_by("order")
+        next_order = 1
+        for item in backlog_items:
+            # item.save()
+            next_order += 1
+        form.instance.order = next_order
+        return super().form_valid(form)
+
+
+class BacklogItemBookUpdate(UpdateView):
+    model = BacklogItem
+    fields = ["book", "order", "status"]
+    # form_class = BacklogItemAnimeUpdateForm
+    template_name_suffix = "_update_form"
+
+    def form_valid(self, form):
+        plan = self.kwargs["backlog_pk"]
+        status = form.instance.status
+        backlog_items = list(BacklogItem.objects.filter(plan=plan).filter(status=status).order_by("order"))
+        next_order = 1
+        for item in backlog_items:
+            if next_order == form.cleaned_data["order"]:
+                next_order += 1
+            item.order = next_order
+            #item.save()
+            next_order += 1
+        BacklogItem.objects.bulk_update(backlog_items, ["order"])
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        pk = self.kwargs["backlog_pk"]
+        return reverse_lazy("backlog", kwargs={"pk": pk})
+
+
+class BacklogItemBookDelete(DeleteView):
+    model = BacklogItem
+
+    def get_success_url(self):
+        pk = self.kwargs["backlog_pk"]
+        return reverse_lazy("backlog", kwargs={"pk": pk})
 
 
