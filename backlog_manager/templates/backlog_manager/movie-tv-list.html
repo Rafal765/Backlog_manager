@@ -4,11 +4,16 @@
     <h2>Movie/TV list</h2>
     {% endblock %}
         {% block content %}
+
+            <a href="{% url 'movie_tv_create' %}">Add new game</a>
+
             <ol>
                 {% for movie_tv in movie_tv_list.all %}
 
                     <li>
                         <a href="/movie-tv-detail/{{ movie_tv.id }}">Title: {{ movie_tv.title }} Comment: {{ movie_tv.comment }} Genres: {% for genre in movie_tv.genre.all %} {{ genre.genre }} {% endfor %}</a>
+                        <a href="/movie-tv-update/{{ movie_tv.id }}">Update</a>
+                        <a href="/movie-tv-delete/{{ movie_tv.id }}">Delete</a>
                     </li>
 
                 {% endfor %}

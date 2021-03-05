@@ -4,11 +4,16 @@
     <h2>Books list</h2>
     {% endblock %}
         {% block content %}
+
+            <a href="{% url 'book_create' %}">Add new book</a>
+
             <ol>
                 {% for book in book_list.all %}
 
                     <li>
                         <a href="/book-detail/{{ book.id }}">Title: {{ book.title }} Comment: {{ book.comment }} Genres: {% for genre in book.genre.all %} {{ genre.genre }} {% endfor %}</a>
+                        <a href="/book-update/{{ book.id }}">Update</a>
+                        <a href="/book-delete/{{ book.id }}">Delete</a>
                     </li>
 
                 {% endfor %}

@@ -4,11 +4,16 @@
     <h2>Anime list</h2>
     {% endblock %}
         {% block content %}
+
+            <a href="{% url 'anime_create' %}">Add new anime</a>
+
             <ol>
                 {% for anime in anime_list.all %}
 
                     <li>
                         <a href="/anime-detail/{{ anime.id }}">Title: {{ anime.title }} Comment: {{ anime.comment }} Genres: {% for genre in anime.genre.all %} {{ genre.genre }} {% endfor %}</a>
+                        <a href="/anime-update/{{ anime.id }}">Update</a>
+                        <a href="/anime-delete/{{ anime.id }}">Delete</a>
                     </li>
 
                 {% endfor %}

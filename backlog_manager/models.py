@@ -61,6 +61,7 @@ class Book(models.Model):
 
 class Backlog(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=64, default="My backlog")
 
 
 class BacklogItem(models.Model):

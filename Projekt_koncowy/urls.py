@@ -14,7 +14,6 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.contrib.auth import urls
 from django.urls import path, include
 from backlog_manager.views import MainView, BacklogView, GameView, AnimeView, MovieTVView, BookView, \
     GameGenreView, GenreView, GameDetailView, AnimeDetailView, MovieTVDetailView, BookDetailView, \
@@ -23,13 +22,16 @@ from backlog_manager.views import MainView, BacklogView, GameView, AnimeView, Mo
     GenreCreate, GenreUpdate, GenreDelete, BacklogItemGameAdd, BacklogItemGameUpdate, BacklogItemGameDelete, \
     BacklogItemAnimeAdd, BacklogItemAnimeUpdate, BacklogItemAnimeDelete, BacklogItemMovieTVAdd, \
     BacklogItemMovieTVUpdate, BacklogItemMovieTVDelete, BacklogItemBookAdd, BacklogItemBookUpdate, \
-    BacklogItemBookDelete
+    BacklogItemBookDelete, BacklogCreate, BacklogUpdate, BacklogDelete
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', MainView.as_view(), name="my_backlogs"),
+    path('backlog-create', BacklogCreate.as_view(), name="backlog_create"),
+    path('backlog-update/<int:pk>', BacklogUpdate.as_view(), name="backlog_update"),
+    path('backlog-delete/<int:pk>', BacklogDelete.as_view(), name="backlog_delete"),
     path('backlog/<int:pk>', BacklogView.as_view(), name="backlog"),
     path('game-list/', GameView.as_view(), name="game"),
     path('anime-list/', AnimeView.as_view(), name="anime"),

@@ -2,8 +2,13 @@
 
     {% block title %}
     <h2>User: {{ backlog.user }}</h2>
+
+    <a href="{% url 'logout' %}">Logout</a>
+
     {% endblock %}
         {% block content %}
+
+            <a href="/">Return to backlog list</a>
 
         <h2>Add new item</h2>
             <a href="/backlog-item-game-create/{{ backlog.id }}">Game</a>

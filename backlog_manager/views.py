@@ -2,20 +2,61 @@ from django.views import View
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 from .models import Genre, GameGenre, Anime, Book, Game, MovieTV, Backlog, BacklogItem
-from django.forms import ModelForm
 #from .forms import BacklogItemGameUpdateForm, BacklogItemAnimeUpdateForm, \
  #   BacklogItemMovieTVUpdateForm, BacklogItemBookUpdateForm
 from django.views.generic import FormView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 
 
-class MainView(View):
+class MainView(LoginRequiredMixin, View):
+    login_url = "login"
+
     def get(self, request):
+        #user = Backlog.objects.filter(user__backlog=)
+        ctx = {
+        #    "user": user,
+        }
+        return render(request, "backlog_manager/my-backlogs.html", ctx)
 
-        return render(request, "backlog_manager/my-backlogs.html")
+
+class BacklogCreate(LoginRequiredMixin, CreateView):
+    login_url = "login"
+
+    model = Backlog
+    fields = ["name"]
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy("my_backlogs")
 
 
-class BacklogView(View):
+class BacklogUpdate(LoginRequiredMixin, UpdateView):
+    login_url = "login"
+
+    model = Backlog
+    fields = ["name"]
+    template_name_suffix = "_update_form"
+
+    def get_success_url(self):
+        return reverse_lazy("my_backlogs")
+
+
+class BacklogDelete(LoginRequiredMixin, DeleteView):
+    login_url = "login"
+
+    model = Backlog
+
+    def get_success_url(self):
+        return reverse_lazy("my_backlogs")
+
+
+class BacklogView(LoginRequiredMixin, View):
+    login_url = "login"
+
     def get(self, request, pk):
         backlog = get_object_or_404(Backlog, pk=pk)
         #backlog_items = BacklogItem.objects.filter(plan=backlog).order_by('order')
@@ -31,7 +72,9 @@ class BacklogView(View):
         return render(request, "backlog_manager/backlog.html", ctx)
 
 
-class GameView(View):
+class GameView(LoginRequiredMixin, View):
+    login_url = "login"
+
     def get(self, request):
         game_list = Game.objects.all().order_by('title')
         ctx = {
@@ -40,7 +83,9 @@ class GameView(View):
         return render(request, "backlog_manager/game-list.html", ctx)
 
 
-class AnimeView(View):
+class AnimeView(LoginRequiredMixin, View):
+    login_url = "login"
+
     def get(self, request):
         anime_list = Anime.objects.all().order_by('title')
         ctx = {
@@ -49,7 +94,9 @@ class AnimeView(View):
         return render(request, "backlog_manager/anime-list.html", ctx)
 
 
-class MovieTVView(View):
+class MovieTVView(LoginRequiredMixin, View):
+    login_url = "login"
+
     def get(self, request):
         movie_tv_list = MovieTV.objects.all().order_by('title')
         ctx = {
@@ -58,7 +105,9 @@ class MovieTVView(View):
         return render(request, "backlog_manager/movie-tv-list.html", ctx)
 
 
-class BookView(View):
+class BookView(LoginRequiredMixin, View):
+    login_url = "login"
+
     def get(self, request):
         book_list = Book.objects.all().order_by('title')
         ctx = {
@@ -67,7 +116,9 @@ class BookView(View):
         return render(request, "backlog_manager/book-list.html", ctx)
 
 
-class GenreView(View):
+class GenreView(LoginRequiredMixin, View):
+    login_url = "login"
+
     def get(self, request):
         genre_list = Genre.objects.all().order_by('genre')
         ctx = {
@@ -76,7 +127,9 @@ class GenreView(View):
         return render(request, "backlog_manager/genre-list.html", ctx)
 
 
-class GameGenreView(View):
+class GameGenreView(LoginRequiredMixin, View):
+    login_url = "login"
+
     def get(self, request):
         game_genre_list = GameGenre.objects.all().order_by('genre')
         ctx = {
@@ -85,7 +138,9 @@ class GameGenreView(View):
         return render(request, "backlog_manager/game-genre-list.html", ctx)
 
 
-class GameDetailView(View):
+class GameDetailView(LoginRequiredMixin, View):
+    login_url = "login"
+
     def get(self, request, pk):
         game = Game.objects.get(pk=pk)
         ctx = {
@@ -94,7 +149,9 @@ class GameDetailView(View):
         return render(request, "backlog_manager/game-detail.html", ctx)
 
 
-class AnimeDetailView(View):
+class AnimeDetailView(LoginRequiredMixin, View):
+    login_url = "login"
+
     def get(self, request, pk):
         anime = Anime.objects.get(pk=pk)
         ctx = {
@@ -103,7 +160,9 @@ class AnimeDetailView(View):
         return render(request, "backlog_manager/anime-detail.html", ctx)
 
 
-class MovieTVDetailView(View):
+class MovieTVDetailView(LoginRequiredMixin, View):
+    login_url = "login"
+
     def get(self, request, pk):
         movie_tv = MovieTV.objects.get(pk=pk)
         ctx = {
@@ -112,7 +171,9 @@ class MovieTVDetailView(View):
         return render(request, "backlog_manager/movie-tv-detail.html", ctx)
 
 
-class BookDetailView(View):
+class BookDetailView(LoginRequiredMixin, View):
+    login_url = "login"
+
     def get(self, request, pk):
         book = Book.objects.get(pk=pk)
         ctx = {
@@ -121,115 +182,153 @@ class BookDetailView(View):
         return render(request, "backlog_manager/book-detail.html", ctx)
 
 
-class GameCreate(CreateView):
+class GameCreate(LoginRequiredMixin, CreateView):
+    login_url = "login"
+
     model = Game
     fields = ["title", "comment", "genre"]
     success_url = reverse_lazy("game")
 
 
-class GameUpdate(UpdateView):
+class GameUpdate(LoginRequiredMixin, UpdateView):
+    login_url = "login"
+
     model = Game
     fields = ["title", "comment", "genre"]
     template_name_suffix = "_update_form"
     success_url = reverse_lazy("game")
 
 
-class GameDelete(DeleteView):
+class GameDelete(LoginRequiredMixin, DeleteView):
+    login_url = "login"
+
     model = Game
     success_url = reverse_lazy("game")
 
 
-class AnimeCreate(CreateView):
+class AnimeCreate(LoginRequiredMixin, CreateView):
+    login_url = "login"
+
     model = Anime
     fields = ["title", "comment", "genre"]
     success_url = reverse_lazy("anime")
 
 
-class AnimeUpdate(UpdateView):
+class AnimeUpdate(LoginRequiredMixin, UpdateView):
+    login_url = "login"
+
     model = Anime
     fields = ["title", "comment", "genre"]
     template_name_suffix = "_update_form"
     success_url = reverse_lazy("anime")
 
 
-class AnimeDelete(DeleteView):
+class AnimeDelete(LoginRequiredMixin, DeleteView):
+    login_url = "login"
+
     model = Anime
     success_url = reverse_lazy("game")
 
 
-class MovieTVCreate(CreateView):
+class MovieTVCreate(LoginRequiredMixin, CreateView):
+    login_url = "login"
+
     model = MovieTV
     fields = ["title", "comment", "genre"]
     success_url = reverse_lazy("movie_tv")
 
 
-class MovieTVUpdate(UpdateView):
+class MovieTVUpdate(LoginRequiredMixin, UpdateView):
+    login_url = "login"
+
     model = MovieTV
     fields = ["title", "comment", "genre"]
     template_name_suffix = "_update_form"
     success_url = reverse_lazy("movie_tv")
 
 
-class MovieTVDelete(DeleteView):
+class MovieTVDelete(LoginRequiredMixin, DeleteView):
+    login_url = "login"
+
     model = MovieTV
     success_url = reverse_lazy("movie_tv")
 
 
-class BookCreate(CreateView):
+class BookCreate(LoginRequiredMixin, CreateView):
+    login_url = "login"
+
     model = Book
     fields = ["title", "comment", "genre"]
     success_url = reverse_lazy("book")
 
 
-class BookUpdate(UpdateView):
+class BookUpdate(LoginRequiredMixin, UpdateView):
+    login_url = "login"
+
     model = Book
     fields = ["title", "comment", "genre"]
     template_name_suffix = "_update_form"
     success_url = reverse_lazy("book")
 
 
-class BookDelete(DeleteView):
+class BookDelete(LoginRequiredMixin, DeleteView):
+    login_url = "login"
+
     model = Book
     success_url = reverse_lazy("book")
 
 
-class GameGenreCreate(CreateView):
+class GameGenreCreate(LoginRequiredMixin, CreateView):
+    login_url = "login"
+
     model = GameGenre
     fields = ["genre"]
     success_url = reverse_lazy("game_genre")
 
 
-class GameGenreUpdate(UpdateView):
+class GameGenreUpdate(LoginRequiredMixin, UpdateView):
+    login_url = "login"
+
     model = GameGenre
     fields = ["genre"]
     template_name_suffix = "_update_form"
     success_url = reverse_lazy("game_genre")
 
 
-class GameGenreDelete(DeleteView):
+class GameGenreDelete(LoginRequiredMixin, DeleteView):
+    login_url = "login"
+
     model = GameGenre
     success_url = reverse_lazy("game_genre")
 
 
-class GenreCreate(CreateView):
+class GenreCreate(LoginRequiredMixin, CreateView):
+    login_url = "login"
+
     model = Genre
     fields = ["genre"]
     success_url = reverse_lazy("genre")
 
 
-class GenreUpdate(UpdateView):
+class GenreUpdate(LoginRequiredMixin, UpdateView):
+    login_url = "login"
+
     model = Genre
     fields = ["genre"]
     template_name_suffix = "_update_form"
     success_url = reverse_lazy("genre")
 
 
-class GenreDelete(DeleteView):
+class GenreDelete(LoginRequiredMixin, DeleteView):
+    login_url = "login"
+
     model = Genre
     success_url = reverse_lazy("genre")
 
 
-class BacklogItemGameAdd(CreateView):
+class BacklogItemGameAdd(LoginRequiredMixin, CreateView):
+    login_url = "login"
+
     model = BacklogItem
     fields = ["game", "status"]
 
@@ -252,7 +351,9 @@ class BacklogItemGameAdd(CreateView):
         return super().form_valid(form)
 
 
-class BacklogItemGameUpdate(UpdateView):
+class BacklogItemGameUpdate(LoginRequiredMixin, UpdateView):
+    login_url = "login"
+
     model = BacklogItem
     fields = ["game", "order", "status"]
     #form_class = BacklogItemGameUpdateForm
@@ -277,7 +378,9 @@ class BacklogItemGameUpdate(UpdateView):
         return reverse_lazy("backlog", kwargs={"pk": pk})
 
 
-class BacklogItemGameDelete(DeleteView):
+class BacklogItemGameDelete(LoginRequiredMixin, DeleteView):
+    login_url = "login"
+
     model = BacklogItem
 
     def get_success_url(self):
@@ -285,7 +388,9 @@ class BacklogItemGameDelete(DeleteView):
         return reverse_lazy("backlog", kwargs={"pk": pk})
 
 
-class BacklogItemAnimeAdd(CreateView):
+class BacklogItemAnimeAdd(LoginRequiredMixin, CreateView):
+    login_url = "login"
+
     model = BacklogItem
     fields = ["anime", "status"]
 
@@ -308,7 +413,9 @@ class BacklogItemAnimeAdd(CreateView):
         return super().form_valid(form)
 
 
-class BacklogItemAnimeUpdate(UpdateView):
+class BacklogItemAnimeUpdate(LoginRequiredMixin, UpdateView):
+    login_url = "login"
+
     model = BacklogItem
     fields = ["anime", "order", "status"]
     #form_class = BacklogItemAnimeUpdateForm
@@ -333,7 +440,9 @@ class BacklogItemAnimeUpdate(UpdateView):
         return reverse_lazy("backlog", kwargs={"pk": pk})
 
 
-class BacklogItemAnimeDelete(DeleteView):
+class BacklogItemAnimeDelete(LoginRequiredMixin, DeleteView):
+    login_url = "login"
+
     model = BacklogItem
 
     def get_success_url(self):
@@ -341,7 +450,9 @@ class BacklogItemAnimeDelete(DeleteView):
         return reverse_lazy("backlog", kwargs={"pk": pk})
 
 
-class BacklogItemMovieTVAdd(CreateView):
+class BacklogItemMovieTVAdd(LoginRequiredMixin, CreateView):
+    login_url = "login"
+
     model = BacklogItem
     fields = ["movie_tv", "status"]
 
@@ -364,7 +475,9 @@ class BacklogItemMovieTVAdd(CreateView):
         return super().form_valid(form)
 
 
-class BacklogItemMovieTVUpdate(UpdateView):
+class BacklogItemMovieTVUpdate(LoginRequiredMixin, UpdateView):
+    login_url = "login"
+
     model = BacklogItem
     fields = ["movie_tv", "order", "status"]
     # form_class = BacklogItemAnimeUpdateForm
@@ -389,7 +502,9 @@ class BacklogItemMovieTVUpdate(UpdateView):
         return reverse_lazy("backlog", kwargs={"pk": pk})
 
 
-class BacklogItemMovieTVDelete(DeleteView):
+class BacklogItemMovieTVDelete(LoginRequiredMixin, DeleteView):
+    login_url = "login"
+
     model = BacklogItem
 
     def get_success_url(self):
@@ -397,7 +512,9 @@ class BacklogItemMovieTVDelete(DeleteView):
         return reverse_lazy("backlog", kwargs={"pk": pk})
 
 
-class BacklogItemBookAdd(CreateView):
+class BacklogItemBookAdd(LoginRequiredMixin, CreateView):
+    login_url = "login"
+
     model = BacklogItem
     fields = ["book", "status"]
 
@@ -420,7 +537,9 @@ class BacklogItemBookAdd(CreateView):
         return super().form_valid(form)
 
 
-class BacklogItemBookUpdate(UpdateView):
+class BacklogItemBookUpdate(LoginRequiredMixin, UpdateView):
+    login_url = "login"
+
     model = BacklogItem
     fields = ["book", "order", "status"]
     # form_class = BacklogItemAnimeUpdateForm
@@ -445,11 +564,11 @@ class BacklogItemBookUpdate(UpdateView):
         return reverse_lazy("backlog", kwargs={"pk": pk})
 
 
-class BacklogItemBookDelete(DeleteView):
+class BacklogItemBookDelete(LoginRequiredMixin, DeleteView):
+    login_url = "login"
+
     model = BacklogItem
 
     def get_success_url(self):
         pk = self.kwargs["backlog_pk"]
         return reverse_lazy("backlog", kwargs={"pk": pk})
-
-

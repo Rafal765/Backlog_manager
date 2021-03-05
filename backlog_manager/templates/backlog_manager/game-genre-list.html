@@ -4,11 +4,16 @@
     <h2>Game genres list</h2>
     {% endblock %}
         {% block content %}
+
+            <a href="{% url 'game_genre_create' %}">Add new genre</a>
+
             <ol>
                 {% for genre in game_genre_list.all %}
 
                     <li>
                         <a> {{ genre.genre }} </a>
+                        <a href="/game-genre-update/{{ genre.id }}">Update</a>
+                        <a href="/game-genre-delete/{{ genre.id }}">Delete</a>
                     </li>
 
                 {% endfor %}
