@@ -4,12 +4,16 @@ from django.contrib.auth.models import User
 from .models import Genre, GameGenre, Anime, Book, Game, MovieTV, Backlog, BacklogItem
 #from .forms import BacklogItemGameUpdateForm, BacklogItemAnimeUpdateForm, \
  #   BacklogItemMovieTVUpdateForm, BacklogItemBookUpdateForm
-from django.views.generic import FormView, CreateView, UpdateView, DeleteView
+from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 
 
 class MainView(LoginRequiredMixin, View):
+    """
+    Display a list of logged user's backlogs and links to manage entries.
+    Template: `backlog_manager/my-backlogs.html`
+    """
     login_url = "login"
 
     def get(self, request):
@@ -21,6 +25,10 @@ class MainView(LoginRequiredMixin, View):
 
 
 class BacklogCreate(LoginRequiredMixin, CreateView):
+    """
+    Display a form to add a new backlog for logged user.
+    Template: `backlog_manager/backlog_form.html`
+    """
     login_url = "login"
 
     model = Backlog
@@ -35,6 +43,10 @@ class BacklogCreate(LoginRequiredMixin, CreateView):
 
 
 class BacklogUpdate(LoginRequiredMixin, UpdateView):
+    """
+    Display a form to update a name for backlog.
+    Template: `backlog_manager/backlog_update_form.html`
+    """
     login_url = "login"
 
     model = Backlog
@@ -46,6 +58,10 @@ class BacklogUpdate(LoginRequiredMixin, UpdateView):
 
 
 class BacklogDelete(LoginRequiredMixin, DeleteView):
+    """
+    Display a confirmation to delete a backlog entry in the database.
+    Template:`backlog_manager/backlog_confirm_delete.html`
+    """
     login_url = "login"
 
     model = Backlog
@@ -55,6 +71,10 @@ class BacklogDelete(LoginRequiredMixin, DeleteView):
 
 
 class BacklogView(LoginRequiredMixin, View):
+    """
+    Display a list of all entries in a backlog, organized by their status.
+    Template: `backlog_manager/backlog.html`
+    """
     login_url = "login"
 
     def get(self, request, pk):
@@ -73,6 +93,10 @@ class BacklogView(LoginRequiredMixin, View):
 
 
 class GameView(LoginRequiredMixin, View):
+    """
+    Display a list of all games in the database.
+    Template: `backlog_manager/game-list.html`
+    """
     login_url = "login"
 
     def get(self, request):
@@ -84,6 +108,10 @@ class GameView(LoginRequiredMixin, View):
 
 
 class AnimeView(LoginRequiredMixin, View):
+    """
+    Display a list of all anime in the database.
+    Template: `backlog_manager/anime-list.html`
+    """
     login_url = "login"
 
     def get(self, request):
@@ -95,6 +123,10 @@ class AnimeView(LoginRequiredMixin, View):
 
 
 class MovieTVView(LoginRequiredMixin, View):
+    """
+    Display a list of all movie and TV series in the database.
+    Template: `backlog_manager/movie-tv-list.html`
+    """
     login_url = "login"
 
     def get(self, request):
@@ -106,6 +138,10 @@ class MovieTVView(LoginRequiredMixin, View):
 
 
 class BookView(LoginRequiredMixin, View):
+    """
+    Display a list of all books in the database.
+    Template: `backlog_manager/book-list.html`
+    """
     login_url = "login"
 
     def get(self, request):
@@ -117,6 +153,10 @@ class BookView(LoginRequiredMixin, View):
 
 
 class GenreView(LoginRequiredMixin, View):
+    """
+    Display a list of all standard genres in the database.
+    Template:`backlog_manager/genre-list.html`
+    """
     login_url = "login"
 
     def get(self, request):
@@ -128,6 +168,10 @@ class GenreView(LoginRequiredMixin, View):
 
 
 class GameGenreView(LoginRequiredMixin, View):
+    """
+    Display a list of all game specific genres in the database.
+    Template: `backlog_manager/game-genre-list.html`
+    """
     login_url = "login"
 
     def get(self, request):
@@ -139,6 +183,10 @@ class GameGenreView(LoginRequiredMixin, View):
 
 
 class GameDetailView(LoginRequiredMixin, View):
+    """
+    Display detail page for game instance.
+    Template: `backlog_manager/game-detail.html`
+    """
     login_url = "login"
 
     def get(self, request, pk):
@@ -150,6 +198,10 @@ class GameDetailView(LoginRequiredMixin, View):
 
 
 class AnimeDetailView(LoginRequiredMixin, View):
+    """
+    Display detail page for anime instance.
+    Template: `backlog_manager/anime-detail.html`
+    """
     login_url = "login"
 
     def get(self, request, pk):
@@ -161,6 +213,10 @@ class AnimeDetailView(LoginRequiredMixin, View):
 
 
 class MovieTVDetailView(LoginRequiredMixin, View):
+    """
+    Display detail page for movie/tv instance.
+    Template: `backlog_manager/movie-tv-detail.html`
+    """
     login_url = "login"
 
     def get(self, request, pk):
@@ -172,6 +228,10 @@ class MovieTVDetailView(LoginRequiredMixin, View):
 
 
 class BookDetailView(LoginRequiredMixin, View):
+    """
+    Display detail page for book instance.
+    Template: `backlog_manager/book-detail.html`
+    """
     login_url = "login"
 
     def get(self, request, pk):
@@ -183,6 +243,10 @@ class BookDetailView(LoginRequiredMixin, View):
 
 
 class GameCreate(LoginRequiredMixin, CreateView):
+    """
+    Display a form to add a new game.
+    Template: `backlog_manager/game_form.html`
+    """
     login_url = "login"
 
     model = Game
@@ -191,6 +255,10 @@ class GameCreate(LoginRequiredMixin, CreateView):
 
 
 class GameUpdate(LoginRequiredMixin, UpdateView):
+    """
+    Display a form to update a game entry in the database.
+    Template: `backlog_manager/game_update_form.html`
+    """
     login_url = "login"
 
     model = Game
@@ -200,6 +268,10 @@ class GameUpdate(LoginRequiredMixin, UpdateView):
 
 
 class GameDelete(LoginRequiredMixin, DeleteView):
+    """
+    Display a confirmation to delete a game entry in the database.
+    Template:`backlog_manager/game_confirm_delete.html`
+    """
     login_url = "login"
 
     model = Game
@@ -207,6 +279,10 @@ class GameDelete(LoginRequiredMixin, DeleteView):
 
 
 class AnimeCreate(LoginRequiredMixin, CreateView):
+    """
+    Display a form to add a new anime.
+    Template: `backlog_manager/anime_form.html`
+    """
     login_url = "login"
 
     model = Anime
@@ -215,6 +291,10 @@ class AnimeCreate(LoginRequiredMixin, CreateView):
 
 
 class AnimeUpdate(LoginRequiredMixin, UpdateView):
+    """
+    Display a form to update an anime entry in the database.
+    Template: `backlog_manager/anime_update_form.html`
+    """
     login_url = "login"
 
     model = Anime
@@ -224,6 +304,10 @@ class AnimeUpdate(LoginRequiredMixin, UpdateView):
 
 
 class AnimeDelete(LoginRequiredMixin, DeleteView):
+    """
+    Display a confirmation to delete an anime entry in the database.
+    Template:`backlog_manager/anime_confirm_delete.html`
+    """
     login_url = "login"
 
     model = Anime
@@ -231,6 +315,10 @@ class AnimeDelete(LoginRequiredMixin, DeleteView):
 
 
 class MovieTVCreate(LoginRequiredMixin, CreateView):
+    """
+    Display a form to add a new movie/tv.
+    Template:`backlog_manager/movietv_form.html`
+    """
     login_url = "login"
 
     model = MovieTV
@@ -239,6 +327,10 @@ class MovieTVCreate(LoginRequiredMixin, CreateView):
 
 
 class MovieTVUpdate(LoginRequiredMixin, UpdateView):
+    """
+    Display a form to update a movie or tv series entry in the database.
+    Template: `backlog_manager/movietv_update_form.html`
+    """
     login_url = "login"
 
     model = MovieTV
@@ -248,6 +340,10 @@ class MovieTVUpdate(LoginRequiredMixin, UpdateView):
 
 
 class MovieTVDelete(LoginRequiredMixin, DeleteView):
+    """
+    Display a confirmation to delete a movie or tv series entry in the database.
+    Template:`backlog_manager/movietv_confirm_delete.html`
+    """
     login_url = "login"
 
     model = MovieTV
@@ -255,6 +351,10 @@ class MovieTVDelete(LoginRequiredMixin, DeleteView):
 
 
 class BookCreate(LoginRequiredMixin, CreateView):
+    """
+    Display a form to add a new book.
+    Template:`backlog_manager/game_form.html`
+    """
     login_url = "login"
 
     model = Book
@@ -263,6 +363,10 @@ class BookCreate(LoginRequiredMixin, CreateView):
 
 
 class BookUpdate(LoginRequiredMixin, UpdateView):
+    """
+    Display a form to update a book entry in the database.
+    Template: `backlog_manager/book_update_form.html`
+    """
     login_url = "login"
 
     model = Book
@@ -272,6 +376,10 @@ class BookUpdate(LoginRequiredMixin, UpdateView):
 
 
 class BookDelete(LoginRequiredMixin, DeleteView):
+    """
+    Display a confirmation to delete a book entry in the database.
+    Template:`backlog_manager/book_confirm_delete.html`
+    """
     login_url = "login"
 
     model = Book
@@ -279,6 +387,10 @@ class BookDelete(LoginRequiredMixin, DeleteView):
 
 
 class GameGenreCreate(LoginRequiredMixin, CreateView):
+    """
+    Display a form to add a new game genre.
+    Template:`backlog_manager/gamegenre_form.html`
+    """
     login_url = "login"
 
     model = GameGenre
@@ -287,6 +399,10 @@ class GameGenreCreate(LoginRequiredMixin, CreateView):
 
 
 class GameGenreUpdate(LoginRequiredMixin, UpdateView):
+    """
+    Display a form to update a game genre entry in the database.
+    Template: `backlog_manager/gamegenre_update_form.html`
+    """
     login_url = "login"
 
     model = GameGenre
@@ -296,6 +412,10 @@ class GameGenreUpdate(LoginRequiredMixin, UpdateView):
 
 
 class GameGenreDelete(LoginRequiredMixin, DeleteView):
+    """
+    Display a confirmation to delete a game genre entry in the database.
+    Template:`backlog_manager/gamegenre_confirm_delete.html`
+    """
     login_url = "login"
 
     model = GameGenre
@@ -303,6 +423,10 @@ class GameGenreDelete(LoginRequiredMixin, DeleteView):
 
 
 class GenreCreate(LoginRequiredMixin, CreateView):
+    """
+    Display a form to add a new genre.
+    Template:`backlog_manager/genre_form.html`
+    """
     login_url = "login"
 
     model = Genre
@@ -311,6 +435,10 @@ class GenreCreate(LoginRequiredMixin, CreateView):
 
 
 class GenreUpdate(LoginRequiredMixin, UpdateView):
+    """
+    Display a form to update a genre entry in the database.
+    Template: `backlog_manager/genre_update_form.html`
+    """
     login_url = "login"
 
     model = Genre
@@ -320,6 +448,10 @@ class GenreUpdate(LoginRequiredMixin, UpdateView):
 
 
 class GenreDelete(LoginRequiredMixin, DeleteView):
+    """
+    Display a confirmation to delete a genre entry in the database.
+    Template:`backlog_manager/genre_confirm_delete.html`
+    """
     login_url = "login"
 
     model = Genre
@@ -327,6 +459,10 @@ class GenreDelete(LoginRequiredMixin, DeleteView):
 
 
 class BacklogItemGameAdd(LoginRequiredMixin, CreateView):
+    """
+    Display a form to add an item to backlog, from existing games.
+    Template:`backlog_manager/backlogitem_form.html`
+    """
     login_url = "login"
 
     model = BacklogItem
@@ -352,6 +488,10 @@ class BacklogItemGameAdd(LoginRequiredMixin, CreateView):
 
 
 class BacklogItemGameUpdate(LoginRequiredMixin, UpdateView):
+    """
+    Display a form to update a game entry in the backlog.
+    Template:`backlog_manager/backlogitem_update_form.html`
+    """
     login_url = "login"
 
     model = BacklogItem
@@ -379,6 +519,10 @@ class BacklogItemGameUpdate(LoginRequiredMixin, UpdateView):
 
 
 class BacklogItemGameDelete(LoginRequiredMixin, DeleteView):
+    """
+    Display a confirmation to delete a game entry in the backlog.
+    Template:`backlog_manager/backlogitem_confirm_delete.html`
+    """
     login_url = "login"
 
     model = BacklogItem
@@ -389,6 +533,10 @@ class BacklogItemGameDelete(LoginRequiredMixin, DeleteView):
 
 
 class BacklogItemAnimeAdd(LoginRequiredMixin, CreateView):
+    """
+    Display a form to add an item to backlog, from existing anime.
+    Template:`backlog_manager/backlogitem_form.html`
+    """
     login_url = "login"
 
     model = BacklogItem
@@ -414,6 +562,10 @@ class BacklogItemAnimeAdd(LoginRequiredMixin, CreateView):
 
 
 class BacklogItemAnimeUpdate(LoginRequiredMixin, UpdateView):
+    """
+    Display a form to update an anime entry in the backlog.
+    Template:`backlog_manager/backlogitem_update_form.html`
+    """
     login_url = "login"
 
     model = BacklogItem
@@ -441,6 +593,10 @@ class BacklogItemAnimeUpdate(LoginRequiredMixin, UpdateView):
 
 
 class BacklogItemAnimeDelete(LoginRequiredMixin, DeleteView):
+    """
+    Display a confirmation to delete an anime entry in the backlog.
+    Template:`backlog_manager/backlogitem_confirm_delete.html`
+    """
     login_url = "login"
 
     model = BacklogItem
@@ -451,6 +607,10 @@ class BacklogItemAnimeDelete(LoginRequiredMixin, DeleteView):
 
 
 class BacklogItemMovieTVAdd(LoginRequiredMixin, CreateView):
+    """
+    Display a form to add an item to backlog, from existing movie and tv series.
+    Template:`backlog_manager/backlogitem_form.html`
+    """
     login_url = "login"
 
     model = BacklogItem
@@ -476,6 +636,10 @@ class BacklogItemMovieTVAdd(LoginRequiredMixin, CreateView):
 
 
 class BacklogItemMovieTVUpdate(LoginRequiredMixin, UpdateView):
+    """
+    Display a form to update a movie or tv series entry in the backlog.
+    Template:`backlog_manager/backlogitem_update_form.html`
+    """
     login_url = "login"
 
     model = BacklogItem
@@ -503,6 +667,10 @@ class BacklogItemMovieTVUpdate(LoginRequiredMixin, UpdateView):
 
 
 class BacklogItemMovieTVDelete(LoginRequiredMixin, DeleteView):
+    """
+    Display a confirmation to delete a movie or tv series entry in the backlog.
+    Template:`backlog_manager/backlogitem_confirm_delete.html`
+    """
     login_url = "login"
 
     model = BacklogItem
@@ -513,6 +681,10 @@ class BacklogItemMovieTVDelete(LoginRequiredMixin, DeleteView):
 
 
 class BacklogItemBookAdd(LoginRequiredMixin, CreateView):
+    """
+    Display a form to add an item to backlog, from existing books.
+    Template:`backlog_manager/backlogitem_form.html`
+    """
     login_url = "login"
 
     model = BacklogItem
@@ -538,6 +710,10 @@ class BacklogItemBookAdd(LoginRequiredMixin, CreateView):
 
 
 class BacklogItemBookUpdate(LoginRequiredMixin, UpdateView):
+    """
+    Display a form to update a book entry in the backlog.
+    Template:`backlog_manager/backlogitem_update_form.html`
+    """
     login_url = "login"
 
     model = BacklogItem
@@ -565,6 +741,10 @@ class BacklogItemBookUpdate(LoginRequiredMixin, UpdateView):
 
 
 class BacklogItemBookDelete(LoginRequiredMixin, DeleteView):
+    """
+    Display a confirmation to delete a book entry in the backlog.
+    Template:`backlog_manager/backlogitem_confirm_delete.html`
+    """
     login_url = "login"
 
     model = BacklogItem
