@@ -2,8 +2,6 @@ from django.views import View
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 from .models import Genre, GameGenre, Anime, Book, Game, MovieTV, Backlog, BacklogItem
-#from .forms import BacklogItemGameUpdateForm, BacklogItemAnimeUpdateForm, \
- #   BacklogItemMovieTVUpdateForm, BacklogItemBookUpdateForm
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
@@ -17,11 +15,7 @@ class MainView(LoginRequiredMixin, View):
     login_url = "login"
 
     def get(self, request):
-        #user = Backlog.objects.filter(user__backlog=)
-        ctx = {
-        #    "user": user,
-        }
-        return render(request, "backlog_manager/my-backlogs.html", ctx)
+        return render(request, "backlog_manager/my-backlogs.html")
 
 
 class BacklogCreate(LoginRequiredMixin, CreateView):
@@ -79,7 +73,6 @@ class BacklogView(LoginRequiredMixin, View):
 
     def get(self, request, pk):
         backlog = get_object_or_404(Backlog, pk=pk)
-        #backlog_items = BacklogItem.objects.filter(plan=backlog).order_by('order')
         backlog_items_planned = BacklogItem.objects.filter(plan=backlog, status='p').order_by('order')
         backlog_items_ongoing = BacklogItem.objects.filter(plan=backlog, status='o').order_by('order')
         backlog_items_done = BacklogItem.objects.filter(plan=backlog, status='d').order_by('order')
@@ -481,7 +474,6 @@ class BacklogItemGameAdd(LoginRequiredMixin, CreateView):
         backlog_items = BacklogItem.objects.filter(plan=plan).filter(status=status).order_by("order")
         next_order = 1
         for item in backlog_items:
-            # item.save()
             next_order += 1
         form.instance.order = next_order
         return super().form_valid(form)
@@ -496,7 +488,6 @@ class BacklogItemGameUpdate(LoginRequiredMixin, UpdateView):
 
     model = BacklogItem
     fields = ["game", "order", "status"]
-    #form_class = BacklogItemGameUpdateForm
     template_name_suffix = "_update_form"
 
     def form_valid(self, form):
@@ -508,7 +499,6 @@ class BacklogItemGameUpdate(LoginRequiredMixin, UpdateView):
             if next_order == form.cleaned_data["order"]:
                 next_order += 1
             item.order = next_order
-            #item.save()
             next_order += 1
         BacklogItem.objects.bulk_update(backlog_items, ["order"])
         return super().form_valid(form)
@@ -555,7 +545,6 @@ class BacklogItemAnimeAdd(LoginRequiredMixin, CreateView):
         backlog_items = BacklogItem.objects.filter(plan=plan).filter(status=status).order_by("order")
         next_order = 1
         for item in backlog_items:
-            # item.save()
             next_order += 1
         form.instance.order = next_order
         return super().form_valid(form)
@@ -570,7 +559,6 @@ class BacklogItemAnimeUpdate(LoginRequiredMixin, UpdateView):
 
     model = BacklogItem
     fields = ["anime", "order", "status"]
-    #form_class = BacklogItemAnimeUpdateForm
     template_name_suffix = "_update_form"
 
     def form_valid(self, form):
@@ -582,7 +570,6 @@ class BacklogItemAnimeUpdate(LoginRequiredMixin, UpdateView):
             if next_order == form.cleaned_data["order"]:
                 next_order += 1
             item.order = next_order
-            #item.save()
             next_order += 1
         BacklogItem.objects.bulk_update(backlog_items, ["order"])
         return super().form_valid(form)
@@ -629,7 +616,6 @@ class BacklogItemMovieTVAdd(LoginRequiredMixin, CreateView):
         backlog_items = BacklogItem.objects.filter(plan=plan).filter(status=status).order_by("order")
         next_order = 1
         for item in backlog_items:
-            # item.save()
             next_order += 1
         form.instance.order = next_order
         return super().form_valid(form)
@@ -644,7 +630,6 @@ class BacklogItemMovieTVUpdate(LoginRequiredMixin, UpdateView):
 
     model = BacklogItem
     fields = ["movie_tv", "order", "status"]
-    # form_class = BacklogItemAnimeUpdateForm
     template_name_suffix = "_update_form"
 
     def form_valid(self, form):
@@ -656,7 +641,6 @@ class BacklogItemMovieTVUpdate(LoginRequiredMixin, UpdateView):
             if next_order == form.cleaned_data["order"]:
                 next_order += 1
             item.order = next_order
-            #item.save()
             next_order += 1
         BacklogItem.objects.bulk_update(backlog_items, ["order"])
         return super().form_valid(form)
@@ -703,7 +687,6 @@ class BacklogItemBookAdd(LoginRequiredMixin, CreateView):
         backlog_items = BacklogItem.objects.filter(plan=plan).filter(status=status).order_by("order")
         next_order = 1
         for item in backlog_items:
-            # item.save()
             next_order += 1
         form.instance.order = next_order
         return super().form_valid(form)
@@ -718,7 +701,6 @@ class BacklogItemBookUpdate(LoginRequiredMixin, UpdateView):
 
     model = BacklogItem
     fields = ["book", "order", "status"]
-    # form_class = BacklogItemAnimeUpdateForm
     template_name_suffix = "_update_form"
 
     def form_valid(self, form):
@@ -730,7 +712,6 @@ class BacklogItemBookUpdate(LoginRequiredMixin, UpdateView):
             if next_order == form.cleaned_data["order"]:
                 next_order += 1
             item.order = next_order
-            #item.save()
             next_order += 1
         BacklogItem.objects.bulk_update(backlog_items, ["order"])
         return super().form_valid(form)

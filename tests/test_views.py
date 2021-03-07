@@ -62,6 +62,7 @@ def test_game_create_authorized(game_genre, authorized_client):
     response = authorized_client.post(reverse("game_create"), context)
     assert response.status_code == 302
     assert Game.objects.count() == count + 1
+    assert response.url == "/game-list/"
 
 
 @pytest.mark.django_db
@@ -102,6 +103,7 @@ def test_backlog_create_authorized(authorized_client):
     response = authorized_client.post(reverse("backlog_create"), context)
     assert response.status_code == 302
     assert Backlog.objects.count() == count + 1
+    assert response.url == "/"
 
 
 @pytest.mark.django_db
@@ -126,6 +128,7 @@ def test_backlog_view_add_game_authorized(game, new_backlog, authorized_client):
     response = authorized_client.post(reverse("backlog_game_create", kwargs={"backlog_pk": new_backlog.pk}), context)
     assert response.status_code == 302
     assert BacklogItem.objects.count() == count + 1
+    assert response.url == f"/backlog/{new_backlog.pk}"
 
 
 @pytest.mark.django_db
@@ -137,12 +140,8 @@ def test_backlog_view_update_game_authorized(game, new_backlog, authorized_clien
     }
     response = authorized_client.post(reverse("backlog_game_create", kwargs={"backlog_pk": new_backlog.pk}), context)
     assert response.status_code == 302
+    assert response.url == f"/backlog/{new_backlog.pk}"
 
-
-#def test_should_check_password(db) -> None:
-#    user = User.objects.create_user("A")
-#    user.set_password("secret")
-#    assert user.check_password("secret") is True
 
 
 

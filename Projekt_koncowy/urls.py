@@ -61,7 +61,6 @@ urlpatterns = [
     path('genre-create/', GenreCreate.as_view(), name="genre_create"),
     path('genre-update/<int:pk>', GenreUpdate.as_view(), name="genre_update"),
     path('genre-delete/<int:pk>', GenreDelete.as_view(), name="genre_delete"),
-    #path('backlog/new-item', BacklogItemAddView.as_view(), name="new_item"),
     path('backlog-item-game-create/<int:backlog_pk>', BacklogItemGameAdd.as_view(), name="backlog_game_create"),
     path('backlog-item-game-update/<int:backlog_pk>/<int:pk>', BacklogItemGameUpdate.as_view(),
          name="backlog_game_update"),
