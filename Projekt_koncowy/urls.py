@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from backlog_manager.views import MainView, BacklogView, GameView, AnimeView, MovieTVView, BookView, \
+from backlog_manager.views import SignUp, MainView, BacklogView, GameView, AnimeView, MovieTVView, BookView, \
     GameGenreView, GenreView, GameDetailView, AnimeDetailView, MovieTVDetailView, BookDetailView, \
     GameCreate, GameUpdate, GameDelete, AnimeCreate, AnimeUpdate, AnimeDelete, MovieTVCreate, MovieTVUpdate, \
     MovieTVDelete, BookCreate, BookUpdate, BookDelete, GameGenreCreate, GameGenreUpdate, GameGenreDelete, \
@@ -28,6 +28,7 @@ from backlog_manager.views import MainView, BacklogView, GameView, AnimeView, Mo
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('signup/', SignUp.as_view(), name="sign_up"),
     path('', MainView.as_view(), name="my_backlogs"),
     path('backlog-create', BacklogCreate.as_view(), name="backlog_create"),
     path('backlog-update/<int:pk>', BacklogUpdate.as_view(), name="backlog_update"),

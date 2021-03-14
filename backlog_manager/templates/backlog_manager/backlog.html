@@ -1,14 +1,10 @@
 {% extends "backlog_manager/base.html" %}
 
     {% block title %}
-    <h2>User: {{ backlog.user }}</h2>
-
-    <a href="{% url 'logout' %}">Logout</a>
-
+    <h2>Backlog {{ backlog.name }}</h2>
     {% endblock %}
-        {% block content %}
 
-            <a href="/">Return to backlog list</a>
+        {% block content %}
 
         <h2>Add new item</h2>
             <a href="/backlog-item-game-create/{{ backlog.id }}">Game</a>
@@ -16,120 +12,170 @@
             <a href="/backlog-item-movie-tv-create/{{ backlog.id }}">Movie/TV</a>
             <a href="/backlog-item-book-create/{{ backlog.id }}">Book</a>
 
-        <h3>Planned</h3>
+            <hr class="sidebar-divider">
 
-            <ol>
+            <h3>Planned</h3>
+
+            <table id="mytable" class="table table-bordred table-striped">
+            <col style="width:20%" span="5">
+                <tr>
+                <th>Title:</th>
+                <th>Comment:</th>
+                <th>Genre:</th>
+                <th>Update:</th>
+                <th>Delete:</th>
+                </tr>
+
                 {% for item in backlog_items_planned.all %}
-
+                    <tr>
                     {% if item.anime %}
-                    <li>
-                        <a href="/anime-detail/{{ item.anime.id }}">Title: {{ item.anime.title }} Comment: {{ item.anime.comment }} Type: anime</a>
-                        <a href="/backlog-item-anime-update/{{ backlog.id }}/{{ item.id }}">Update</a>
-                        <a href="/backlog-item-anime-delete/{{ backlog.id }}/{{ item.id }}">Delete</a>
-                    </li>
+
+                        <td><a href="/anime-detail/{{ item.anime.id }}">{{ item.anime.title }}</a></td> <td>{{ item.anime.comment }} </td> <td>anime</td>
+                        <td><a href="/backlog-item-anime-update/{{ backlog.id }}/{{ item.id }}">
+                            <button class="btn btn-primary btn-xs"><span class="fas fa-pen"></span></button></a></td>
+                        <td><a href="/backlog-item-anime-delete/{{ backlog.id }}/{{ item.id }}">
+                            <button class="btn btn-danger btn-xs"><span class="fas fa-minus-square"></span></button></a></td>
+
                     {% endif %}
 
                     {% if item.book %}
-                    <li>
-                        <a href="/book-detail/{{ item.book.id }}">Title: {{ item.book.title }} Comment: {{ item.book.comment }} Type: book</a>
-                        <a href="/backlog-item-book-update/{{ backlog.id }}/{{ item.id }}">Update</a>
-                        <a href="/backlog-item-book-delete/{{ backlog.id }}/{{ item.id }}">Delete</a>
-                    </li>
+
+                        <td><a href="/book-detail/{{ item.book.id }}">{{ item.book.title }}</a></td> <td>{{ item.book.comment }} </td> <td>book</td>
+                        <td><a href="/backlog-item-book-update/{{ backlog.id }}/{{ item.id }}">
+                            <button class="btn btn-primary btn-xs"><span class="fas fa-pen"></span></button></a></td>
+                        <td><a href="/backlog-item-book-delete/{{ backlog.id }}/{{ item.id }}">
+                            <button class="btn btn-danger btn-xs"><span class="fas fa-minus-square"></span></button></a></td>
+
                     {% endif %}
 
                     {% if item.game %}
-                    <li>
-                        <a href="/game-detail/{{ item.game.id }}">Title: {{ item.game.title }} Comment: {{ item.game.comment }} Type: game</a>
-                        <a href="/backlog-item-game-update/{{ backlog.id }}/{{ item.id }}">Update</a>
-                        <a href="/backlog-item-game-delete/{{ backlog.id }}/{{ item.id }}">Delete</a>
-                    </li>
+
+                        <td><a href="/game-detail/{{ item.game.id }}">{{ item.game.title }}</a></td> <td>{{ item.game.comment }} </td> <td>game</td>
+                        <td><a href="/backlog-item-game-update/{{ backlog.id }}/{{ item.id }}">
+                            <button class="btn btn-primary btn-xs"><span class="fas fa-pen"></span></button></a></td>
+                        <td><a href="/backlog-item-game-delete/{{ backlog.id }}/{{ item.id }}">
+                            <button class="btn btn-danger btn-xs"><span class="fas fa-minus-square"></span></button></a></td>
+
                     {% endif %}
 
                     {% if item.movie_tv %}
-                    <li>
-                        <a href="/movie-tv-detail/{{ item.movie_tv.id }}">Title: {{ item.movie_tv.title }} Comment: {{ item.movie_tv.comment }} Type: Movie/TV</a>
-                        <a href="/backlog-item-movie-tv-update/{{ backlog.id }}/{{ item.id }}">Update</a>
-                        <a href="/backlog-item-movie-tv-delete/{{ backlog.id }}/{{ item.id }}">Delete</a>
-                    </li>
+
+                        <td><a href="/movie-tv-detail/{{ item.movie_tv.id }}">{{ item.movie_tv.title }}</a></td> <td>{{ item.movie_tv.comment }} </td> <td>movie/TV</td>
+                        <td><a href="/backlog-item-movie-tv-update/{{ backlog.id }}/{{ item.id }}">
+                            <button class="btn btn-primary btn-xs"><span class="fas fa-pen"></span></button></a></td>
+                        <td><a href="/backlog-item-movie-tv-delete/{{ backlog.id }}/{{ item.id }}">
+                            <button class="btn btn-danger btn-xs"><span class="fas fa-minus-square"></span></button></a></td>
+
                     {% endif %}
+                    </tr>
                 {% endfor %}
-            </ol>
+            </table>
 
-                    <h3>Ongoing</h3>
+            <h3>Ongoing</h3>
 
-            <ol>
+            <table id="mytable" class="table table-bordred table-striped">
+            <col style="width:20%" span="5">
+                <tr>
+                <th>Title:</th>
+                <th>Comment:</th>
+                <th>Genre:</th>
+                <th>Update:</th>
+                <th>Delete:</th>
+                </tr>
                 {% for item in backlog_items_ongoing.all %}
-
+                    <tr>
                     {% if item.anime %}
-                    <li>
-                        <a href="/anime-detail/{{ item.anime.id }}">Title: {{ item.anime.title }} Comment: {{ item.anime.comment }} Type: anime</a>
-                        <a href="/backlog-item-anime-update/{{ backlog.id }}/{{ item.id }}">Update</a>
-                        <a href="/backlog-item-anime-delete/{{ backlog.id }}/{{ item.id }}">Delete</a>
-                    </li>
+                        <td><a href="/anime-detail/{{ item.anime.id }}">{{ item.anime.title }}</a></td> <td>{{ item.anime.comment }} </td> <td>anime</td>
+                        <td><a href="/backlog-item-anime-update/{{ backlog.id }}/{{ item.id }}">
+                            <button class="btn btn-primary btn-xs"><span class="fas fa-pen"></span></button></a></td>
+                        <td><a href="/backlog-item-anime-delete/{{ backlog.id }}/{{ item.id }}">
+                            <button class="btn btn-danger btn-xs"><span class="fas fa-minus-square"></span></button></a></td>
                     {% endif %}
 
                     {% if item.book %}
-                    <li>
-                        <a href="/book-detail/{{ item.book.id }}">Title: {{ item.book.title }} Comment: {{ item.book.comment }} Type: book</a>
-                        <a href="/backlog-item-book-update/{{ backlog.id }}/{{ item.id }}">Update</a>
-                        <a href="/backlog-item-book-delete/{{ backlog.id }}/{{ item.id }}">Delete</a>
-                    </li>
+
+                        <td><a href="/book-detail/{{ item.book.id }}">{{ item.book.title }}</a></td> <td>{{ item.book.comment }} </td> <td>book</td>
+                        <td><a href="/backlog-item-book-update/{{ backlog.id }}/{{ item.id }}">
+                            <button class="btn btn-primary btn-xs"><span class="fas fa-pen"></span></button></a></td>
+                        <td><a href="/backlog-item-book-delete/{{ backlog.id }}/{{ item.id }}">
+                            <button class="btn btn-danger btn-xs"><span class="fas fa-minus-square"></span></button></a></td>
+
                     {% endif %}
 
                     {% if item.game %}
-                    <li>
-                        <a href="/game-detail/{{ item.game.id }}">Title: {{ item.game.title }} Comment: {{ item.game.comment }} Type: game</a>
-                        <a href="/backlog-item-game-update/{{ backlog.id }}/{{ item.id }}">Update</a>
-                        <a href="/backlog-item-game-delete/{{ backlog.id }}/{{ item.id }}">Delete</a>
-                    </li>
+
+                        <td><a href="/game-detail/{{ item.game.id }}">{{ item.game.title }}</a></td> <td>{{ item.game.comment }} </td> <td>game</td>
+                        <td><a href="/backlog-item-game-update/{{ backlog.id }}/{{ item.id }}">
+                            <button class="btn btn-primary btn-xs"><span class="fas fa-pen"></span></button></a></td>
+                        <td><a href="/backlog-item-game-delete/{{ backlog.id }}/{{ item.id }}">
+                            <button class="btn btn-danger btn-xs"><span class="fas fa-minus-square"></span></button></a></td>
+
                     {% endif %}
 
                     {% if item.movie_tv %}
-                    <li>
-                        <a href="/movie-tv-detail/{{ item.movie_tv.id }}">Title: {{ item.movie_tv.title }} Comment: {{ item.movie_tv.comment }} Type: Movie/TV</a>
-                        <a href="/backlog-item-movie-tv-update/{{ backlog.id }}/{{ item.id }}">Update</a>
-                        <a href="/backlog-item-movie-tv-delete/{{ backlog.id }}/{{ item.id }}">Delete</a>
-                    </li>
+
+                        <td><a href="/movie-tv-detail/{{ item.movie_tv.id }}">{{ item.movie_tv.title }}</a></td> <td>{{ item.movie_tv.comment }} </td> <td>movie/TV</td>
+                        <td><a href="/backlog-item-movie-tv-update/{{ backlog.id }}/{{ item.id }}">
+                            <button class="btn btn-primary btn-xs"><span class="fas fa-pen"></span></button></a></td>
+                        <td><a href="/backlog-item-movie-tv-delete/{{ backlog.id }}/{{ item.id }}">
+                            <button class="btn btn-danger btn-xs"><span class="fas fa-minus-square"></span></button></a></td>
+
                     {% endif %}
+                    </tr>
                 {% endfor %}
-            </ol>
+            </table>
 
-                    <h3>Done</h3>
+            <h3>Done</h3>
 
-            <ol>
+            <table id="mytable" class="table table-bordred table-striped">
+            <col style="width:20%" span="5">
+                <tr>
+                <th>Title:</th>
+                <th>Comment:</th>
+                <th>Genre:</th>
+                <th>Update:</th>
+                <th>Delete:</th>
+                </tr>
                 {% for item in backlog_items_done.all %}
-
+                    <tr>
                     {% if item.anime %}
-                    <li>
-                        <a href="/anime-detail/{{ item.anime.id }}">Title: {{ item.anime.title }} Comment: {{ item.anime.comment }} Type: anime</a>
-                        <a href="/backlog-item-anime-update/{{ backlog.id }}/{{ item.id }}">Update</a>
-                        <a href="/backlog-item-anime-delete/{{ backlog.id }}/{{ item.id }}">Delete</a>
-                    </li>
+                        <td><a href="/anime-detail/{{ item.anime.id }}">{{ item.anime.title }}</a></td> <td>{{ item.anime.comment }} </td> <td>anime</td>
+                        <td><a href="/backlog-item-anime-update/{{ backlog.id }}/{{ item.id }}">
+                            <button class="btn btn-primary btn-xs"><span class="fas fa-pen"></span></button></a></td>
+                        <td><a href="/backlog-item-anime-delete/{{ backlog.id }}/{{ item.id }}">
+                            <button class="btn btn-danger btn-xs"><span class="fas fa-minus-square"></span></button></a></td>
                     {% endif %}
 
                     {% if item.book %}
-                    <li>
-                        <a href="/book-detail/{{ item.book.id }}">Title: {{ item.book.title }} Comment: {{ item.book.comment }} Type: book</a>
-                        <a href="/backlog-item-book-update/{{ backlog.id }}/{{ item.id }}">Update</a>
-                        <a href="/backlog-item-book-delete/{{ backlog.id }}/{{ item.id }}">Delete</a>
-                    </li>
+
+                        <td><a href="/book-detail/{{ item.book.id }}">{{ item.book.title }}</a></td> <td>{{ item.book.comment }} </td> <td>book</td>
+                        <td><a href="/backlog-item-book-update/{{ backlog.id }}/{{ item.id }}">
+                            <button class="btn btn-primary btn-xs"><span class="fas fa-pen"></span></button></a></td>
+                        <td><a href="/backlog-item-book-delete/{{ backlog.id }}/{{ item.id }}">
+                            <button class="btn btn-danger btn-xs"><span class="fas fa-minus-square"></span></button></a></td>
+
                     {% endif %}
 
                     {% if item.game %}
-                    <li>
-                        <a href="/game-detail/{{ item.game.id }}">Title: {{ item.game.title }} Comment: {{ item.game.comment }} Type: game</a>
-                        <a href="/backlog-item-game-update/{{ backlog.id }}/{{ item.id }}">Update</a>
-                        <a href="/backlog-item-game-delete/{{ backlog.id }}/{{ item.id }}">Delete</a>
-                    </li>
+
+                        <td><a href="/game-detail/{{ item.game.id }}">{{ item.game.title }}</a></td> <td>{{ item.game.comment }} </td> <td>game</td>
+                        <td><a href="/backlog-item-game-update/{{ backlog.id }}/{{ item.id }}">
+                            <button class="btn btn-primary btn-xs"><span class="fas fa-pen"></span></button></a></td>
+                        <td><a href="/backlog-item-game-delete/{{ backlog.id }}/{{ item.id }}">
+                            <button class="btn btn-danger btn-xs"><span class="fas fa-minus-square"></span></button></a></td>
+
                     {% endif %}
 
                     {% if item.movie_tv %}
-                    <li>
-                        <a href="/movie-tv-detail/{{ item.movie_tv.id }}">Title: {{ item.movie_tv.title }} Comment: {{ item.movie_tv.comment }} Type: Movie/TV</a>
-                        <a href="/backlog-item-movie-tv-update/{{ backlog.id }}/{{ item.id }}">Update</a>
-                        <a href="/backlog-item-movie-tv-delete/{{ backlog.id }}/{{ item.id }}">Delete</a>
-                    </li>
+
+                        <td><a href="/movie-tv-detail/{{ item.movie_tv.id }}">{{ item.movie_tv.title }}</a></td> <td>{{ item.movie_tv.comment }} </td> <td>movie/TV</td>
+                        <td><a href="/backlog-item-movie-tv-update/{{ backlog.id }}/{{ item.id }}">
+                            <button class="btn btn-primary btn-xs"><span class="fas fa-pen"></span></button></a></td>
+                        <td><a href="/backlog-item-movie-tv-delete/{{ backlog.id }}/{{ item.id }}">
+                            <button class="btn btn-danger btn-xs"><span class="fas fa-minus-square"></span></button></a></td>
+
                     {% endif %}
+                    </tr>
                 {% endfor %}
-            </ol>
+            </table>
         {% endblock %}}

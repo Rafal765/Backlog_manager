@@ -1,21 +1,35 @@
 {% extends "backlog_manager/base.html" %}
 
     {% block title %}
-    <h2>Game genres list</h2>
+    <h2>Game genre list</h2>
     {% endblock %}
+
         {% block content %}
 
-            <a href="{% url 'game_genre_create' %}">Add new genre</a>
+            <a href="{% url 'game_genre_create' %}">Add new game genre</a>
 
-            <ol>
+            <hr class="sidebar-divider">
+
+            <table id="mytable" class="table table-bordred table-striped">
+            <col style="width:20%" span="5">
+                <tr>
+                <th>Genre:</th>
+                <th>Update:</th>
+                <th>Delete:</th>
+                </tr>
+
                 {% for genre in game_genre_list.all %}
 
-                    <li>
-                        <a> {{ genre.genre }} </a>
-                        <a href="/game-genre-update/{{ genre.id }}">Update</a>
-                        <a href="/game-genre-delete/{{ genre.id }}">Delete</a>
-                    </li>
+                <tr>
+
+                    <td><a>{{ genre.genre }}</a></td>
+                    <td><a href="/game-genre-update/{{ genre.id }}">
+                        <button class="btn btn-primary btn-xs"><span class="fas fa-pen"></span></button></a></td>
+                    <td><a href="/game-genre-delete/{{ genre.id }}">
+                        <button class="btn btn-danger btn-xs"><span class="fas fa-minus-square"></span></button></a></td>
 
                 {% endfor %}
-            </ol>
+                </tr>
+            </table>
+
         {% endblock %}

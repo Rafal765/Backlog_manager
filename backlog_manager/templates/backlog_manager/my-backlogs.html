@@ -2,41 +2,40 @@
 
     {% block title %}
     <h2>Main page</h2>
-
-    <a href="{% url 'logout' %}">Logout</a>
-
     {% endblock %}
 
         {% block content %}
 
-            <h3>Genres</h3>
+            <a href="{% url 'backlog_create' %}">Add new backlog</a>
 
-                <a href="{% url 'game_genre' %}">Game genres</a>
-                <a href="{% url 'genre' %}">Other genres</a>
+            <hr class="sidebar-divider">
 
-            <h3>Entries</h3>
-
-                <a href="{% url 'anime' %}">Anime</a>
-                <a href="{% url 'book' %}">Books</a>
-                <a href="{% url 'game' %}">Games</a>
-                <a href="{% url 'movie_tv' %}">Movie/TV</a>
 
             <h3>My backlogs</h3>
 
-                <a href="{% url 'backlog_create' %}">Add backlog</a>
+            <table id="mytable" class="table table-bordred table-striped">
+            <col style="width:20%" span="5">
+                <tr>
+                <th>Backlog:</th>
+                <th>Update:</th>
+                <th>Delete:</th>
+                </tr>
 
-            <ol>
 
             {% for backlog in user.backlog_set.all %}
 
-                <li>
-                    <a href="/backlog/{{ backlog.id }}">{{ backlog.name }}</a>
-                    <a href="/backlog-update/{{ backlog.id }}">Update</a>
-                    <a href="/backlog-delete/{{ backlog.id }}">Delete</a>
-                </li>
+                <tr>
+
+                <td><a href="/backlog/{{ backlog.id }}">{{ backlog.name }}</a></td>
+                <td><a href="/backlog-update/{{ backlog.id }}">
+                    <button class="btn btn-primary btn-xs"><span class="fas fa-pen"></span></button></a></td>
+                <td><a href="/backlog-delete/{{ backlog.id }}">
+                    <button class="btn btn-danger btn-xs"><span class="fas fa-minus-square"></span></button></a></td>
+
+                </tr>
 
             {% endfor %}
 
-            </ol>
+            </table>
 
         {% endblock %}

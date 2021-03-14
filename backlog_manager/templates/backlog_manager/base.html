@@ -1,22 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Backlog Manager</title>
-</head>
-
-<body>
+{% extends "backlog_manager/index.html" %}
 
     <h1>Backlog Manager</h1>
 
-    {% block title %}
-    {% endblock %}
-    <hr>
-    {% block content %}
-    {% endblock %}
+{% block content %}
+{% load static %}
 
-<p>
-</p>
+<h3>Backlog manager</h3>
 
-</body>
-</html>
+{% endblock %}

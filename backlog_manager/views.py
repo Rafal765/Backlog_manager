@@ -1,10 +1,35 @@
 from django.views import View
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+from .forms import SignUpForm
 from .models import Genre, GameGenre, Anime, Book, Game, MovieTV, Backlog, BacklogItem
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
+
+
+class SignUp(View):
+    """
+    Display a form to create a new user.
+    Template: `accounts/signup.html`
+    Related to form SignUp.
+    """
+    def get(self, request):
+        form = SignUpForm()
+        return render(request, 'registration/signup.html', {'form': form})
+
+    def post(self, request):
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('login')
+        return render(request, 'registration/signup.html', {'form': form})
 
 
 class MainView(LoginRequiredMixin, View):

@@ -1,21 +1,37 @@
 {% extends "backlog_manager/base.html" %}
 
     {% block title %}
-    <h2>Games list</h2>
+    <h2>Game list</h2>
     {% endblock %}
+
         {% block content %}
 
             <a href="{% url 'game_create' %}">Add new game</a>
 
-            <ol>
+            <hr class="sidebar-divider">
+
+            <table id="mytable" class="table table-bordred table-striped">
+            <col style="width:20%" span="5">
+                <tr>
+                <th>Title:</th>
+                <th>Comment:</th>
+                <th>Genre:</th>
+                <th>Update:</th>
+                <th>Delete:</th>
+                </tr>
+
                 {% for game in game_list.all %}
 
-                    <li>
-                        <a href="/game-detail/{{ game.id }}">Title: {{ game.title }} Comment: {{ game.comment }} Genres: {% for genre in game.genre.all %} {{ genre.genre }} {% endfor %}</a>
-                        <a href="/game-update/{{ game.id }}">Update</a>
-                        <a href="/game-delete/{{ game.id }}">Delete</a>
-                    </li>
+                <tr>
+
+                    <td><a href="/game-detail/{{ game.id }}">{{ game.title }}</a></td> <td>{{ game.comment }} </td> <td><a>{% for genre in game.genre.all %} {{ genre.genre }} {% endfor %}</a></td>
+                    <td><a href="/game-update/{{ game.id }}">
+                        <button class="btn btn-primary btn-xs"><span class="fas fa-pen"></span></button></a></td>
+                    <td><a href="/game-delete/{{ game.id }}">
+                        <button class="btn btn-danger btn-xs"><span class="fas fa-minus-square"></span></button></a></td>
 
                 {% endfor %}
-            </ol>
+                </tr>
+            </table>
+
         {% endblock %}
