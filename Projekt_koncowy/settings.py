@@ -72,21 +72,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Projekt_koncowy.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'HOST': '127.0.0.1',
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'backlog',
-        'USER': 'postgres',
-        'PASSWORD': 'coderslab',
-    }
-}
-
-
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -126,8 +111,17 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
+# Login settings
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'my_backlogs'
 LOGOUT_REDIRECT_URL = 'login'
 
+# Import database settings
+
+try:
+    from Projekt_koncowy.local_settings import DATABASES
+except ModuleNotFoundError:
+    print("Brak konfiguracji bazy danych w pliku local_settings.py!")
+    print("Uzupełnij dane i spróbuj ponownie!")
+    exit(0)
