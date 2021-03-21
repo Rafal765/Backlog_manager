@@ -20,14 +20,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '!f4af__r5tedd%#8^h=6ewbw#!n1qv-%$c%j%lgbfl20hicoap'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
+try:
+    from .local_settings import SECRET_KEY, DEBUG, ALLOWED_HOSTS
+except ImportError:
+    SECRET_KEY = "placeholder"
+    DEBUG = True
+    ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -120,8 +118,13 @@ LOGOUT_REDIRECT_URL = 'login'
 # Import database settings
 
 try:
-    from Projekt_koncowy.local_settings import DATABASES
-except ModuleNotFoundError:
-    print("Brak konfiguracji bazy danych w pliku local_settings.py!")
-    print("Uzupełnij dane i spróbuj ponownie!")
-    exit(0)
+    from .local_settings import DATABASES
+except ImportError:
+    DATABASES = {
+        'default': {'ENGINE': None},  # placeholder
+    }
+
+# Configure Django App for Heroku.
+
+import django_on_heroku
+django_on_heroku.settings(locals())
