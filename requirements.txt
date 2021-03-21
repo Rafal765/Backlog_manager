@@ -16,7 +16,6 @@ pluggy==0.13.1
 psycopg2-binary==2.8.6
 py==1.10.0
 pydot==1.4.2
-pygraphviz==1.7
 pyparsing==2.4.7
 pytest==6.2.2
 pytest-django==4.1.0
