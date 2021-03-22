@@ -121,7 +121,7 @@ try:
     from .local_settings import DATABASES
 except ImportError:
     DATABASES = {
-        'default': {'ENGINE': None},  # placeholder
+        'default': {'ENGINE': None},
     }
 
 # Configure Django App for Heroku.
