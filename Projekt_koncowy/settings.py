@@ -124,7 +124,7 @@ except ImportError:
         'default': {'ENGINE': None},
     }
 
-# Configure Django App for Heroku.
+# Configure Django App for Heroku. - disabled to prevent pytest errors on GitHub
 
 #import django_on_heroku
 #django_on_heroku.settings(locals())
