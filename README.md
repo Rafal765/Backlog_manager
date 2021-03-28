@@ -38,7 +38,7 @@ Project is created with:
 * Add and manage backlog for your hobbies
 * Organize them by easy adjustment of their priority
 
-###To do:
+### To do:
 
 * Add REST API to automatically check all basic information about your entries 
   (e.g. description, publisher, release date or Metacritic score)
